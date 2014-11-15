@@ -1,2 +1,2 @@
-projektIndependence
+projectFreedom
 ===================
