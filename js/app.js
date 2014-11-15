@@ -3,7 +3,8 @@ require.config({
 
 	paths: {
 		"react": "static/react-with-addons",
-		"JSXTransformer": "static/JSXTransformer"
+		"JSXTransformer": "static/JSXTransformer",
+		"easeljs": "static/easeljs-0.7.1.min"
 	},
 
 	jsx: {
