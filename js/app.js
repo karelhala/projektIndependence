@@ -3,7 +3,8 @@ require.config({
 
 	paths: {
 		"react": "static/react-with-addons",
-		"JSXTransformer": "static/JSXTransformer"
+		"JSXTransformer": "static/JSXTransformer",
+    "react-boostrap": "static/react-bootstrap"
 	},
 
 	jsx: {

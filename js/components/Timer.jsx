@@ -10,7 +10,10 @@ define(['react'], function(React) {
 				'React has been successfully running for ' + seconds + ' seconds.';
 
 			// JSX code
-			return <p>{message}</p>;
+			return
+			<Panel header="Cas od spusteni" bsStyle="success">
+        {message}
+      </Panel>;
 		}
 	});
 
