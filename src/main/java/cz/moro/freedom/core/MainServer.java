@@ -10,10 +10,13 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ServerEndpoint("/server")
 public class MainServer {
     
-  //  private final Logger logger = LoggerFactory.getLogger(MainServer.class);
+    private final Logger logger = LoggerFactory.getLogger(MainServer.class);
     
     private static Queue<Session> sessions = new ConcurrentLinkedQueue<>();
     
@@ -26,8 +29,7 @@ public class MainServer {
     @OnOpen
     public void onOpen(Session session){
         sessions.add(session);
-      //  logger.debug(session.getId() + " has opened a connection");
-        System.out.println(session.getId() + " has opened a connection");
+        logger.debug(session.getId() + " has opened a connection");
         try {
             session.getBasicRemote().sendText("Connection Established");
         } catch (IOException ex) {
@@ -41,7 +43,7 @@ public class MainServer {
      */
     @OnMessage
     public void onMessage(String message, Session session){
-        System.out.println("Message from " + session.getId() + ": " + message);
+        logger.debug("Message from " + session.getId() + ": " + message);
         try {
             for(Session s : sessions) {
                 s.getBasicRemote().sendText(message);
@@ -59,6 +61,6 @@ public class MainServer {
     @OnClose
     public void onClose(Session session){
         sessions.remove(session);
-        System.out.println("Session " +session.getId()+" has ended");
+        logger.debug("Session " +session.getId()+" has ended");
     }
 }
