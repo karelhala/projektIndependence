@@ -24,3 +24,6 @@ proguard/
 
 # Log Files
 *.log
+IndependanceApp/project.properties
+IndependanceApp/.project
+IndependanceApp/.classpath
