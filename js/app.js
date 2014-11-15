@@ -4,7 +4,8 @@ require.config({
 	paths: {
 		"react": "static/react-with-addons",
 		"JSXTransformer": "static/JSXTransformer",
-		"easeljs": "static/easeljs-0.7.1.min"
+		"easeljs": "static/easeljs-0.7.1.min",
+    	"react-boostrap": "static/react-bootstrap"
 	},
 
 	jsx: {
@@ -12,12 +13,11 @@ require.config({
 	}
 });
 
-require(['react', 'jsx!components/Timer'], function(React, Timer) {
-	var start = new Date();
-	Timer = React.createFactory(Timer);
+require(['react', 'jsx!components/WorldOfGomokuApp'], function(React, WorldOfGomoku) {
+	var worldOfGomoku = React.createFactory(WorldOfGomoku);
 
 	// Mount the JSX component in the app container
 	React.render(
-		Timer({start: start}),
+		worldOfGomoku(),
 		document.getElementById('js-app-container'));
 });

@@ -1,16 +1,19 @@
-define(['react'], function(React) {
+define(['react', 'react-boostrap'], function(React, boostrap) {
+	var Panel = boostrap.Panel;
+
 	/**
 	 * <TimeMessage elapsed={100} />
 	 */
 	var TimeMessage = React.createClass({
 		render: function() {
+			console.log(boostrap);
 			var elapsed = Math.round(this.props.elapsed  / 100);
 			var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
 			var message =
 				'React has been successfully running for ' + seconds + ' seconds.';
 
 			// JSX code
-			return <p>{message}</p>;
+			return <Panel header="Cas od spusteni" bsStyle="success" />;
 		}
 	});
 
