@@ -1,7 +1,9 @@
 package cz.moro.freedom.core;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.websocket.OnClose;
@@ -13,12 +15,17 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.moro.freedom.messages.Message;
+import cz.moro.freedom.model.Player;
+import cz.moro.freedom.util.JsonMessageParser;
+
 @ServerEndpoint("/server")
 public class MainServer {
     
     private final Logger logger = LoggerFactory.getLogger(MainServer.class);
     
     private static Queue<Session> sessions = new ConcurrentLinkedQueue<>();
+    private static Map<String, Player> players = new ConcurrentHashMap<>();
     
     /**
      * @OnOpen allows us to intercept the creation of a new session.
@@ -28,8 +35,10 @@ public class MainServer {
      */
     @OnOpen
     public void onOpen(Session session){
-        sessions.add(session);
         logger.debug(session.getId() + " has opened a connection");
+        
+        initPlayer(session);
+        
         try {
             session.getBasicRemote().sendText("Connection Established");
         } catch (IOException ex) {
@@ -44,6 +53,19 @@ public class MainServer {
     @OnMessage
     public void onMessage(String message, Session session){
         logger.debug("Message from " + session.getId() + ": " + message);
+        
+        Message msg = JsonMessageParser.parse(message);
+        
+        switch(msg.getType()) {
+            case CHAT:
+                break;
+            case TURN:
+                break;
+            default:
+                break;
+            
+        }
+        
         try {
             for(Session s : sessions) {
                 s.getBasicRemote().sendText(message);
@@ -53,6 +75,7 @@ public class MainServer {
         }
     }
  
+    
     /**
      * The user closes the connection.
      * 
@@ -62,5 +85,11 @@ public class MainServer {
     public void onClose(Session session){
         sessions.remove(session);
         logger.debug("Session " +session.getId()+" has ended");
+    }
+    
+    private void initPlayer(Session session) {
+        sessions.add(session);
+        Player player = new Player(session.getId());
+        players.put(player.getId(), player);
     }
 }
