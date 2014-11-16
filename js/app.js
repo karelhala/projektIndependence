@@ -5,7 +5,9 @@ require.config({
 		"react": "static/react-with-addons",
 		"JSXTransformer": "static/JSXTransformer",
 		"easeljs": "static/easeljs-0.7.1.min",
-    "bootstrap": "static/bootstrap.min"
+    "bootstrap": "static/bootstrap.min",
+    "objectassign": "static/object-assign",
+    "estedispatcher": "static/este-dispatcher"
 	},
 
 	jsx: {
@@ -20,6 +22,7 @@ require.config({
 });
 
 require(['react', 'jsx!components/WorldOfGomokuApp'], function(React, WorldOfGomoku) {
+
 	var worldOfGomoku = React.createFactory(WorldOfGomoku);
 
 	// Mount the JSX component in the app container
