@@ -10,7 +10,6 @@ public class TurnMsg extends Message {
 
     private int x;
     private int y;
-    private Team team;
     
     public TurnMsg() {
         super(Message.Type.TURN);
@@ -31,13 +30,15 @@ public class TurnMsg extends Message {
     
     public void setY(int y) {    
         this.y = y;
-    }
-            
+    }            
+    
+
     @Override
     public JSONObject toJson() {
         JSONObject json = super.toJson();
         json.put("x", x);
         json.put("y", y);
+        Team team = player.getTeam();
         if(team != null) {
             json.put("team", team.getId());
         }

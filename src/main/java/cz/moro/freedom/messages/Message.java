@@ -16,7 +16,8 @@ public class Message {
         START,
         END,
         TURN,
-        CHAT;
+        CHAT, 
+        CONNECT;
         
         public static Type fromString(String name) {
             for(Type type : values()){

@@ -12,13 +12,13 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cz.moro.freedom.core.handlers.GameHandler;
 import cz.moro.freedom.messages.ChatMsg;
+import cz.moro.freedom.messages.ConnectMsg;
 import cz.moro.freedom.messages.EndMsg;
 import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.StartGameMsg;
@@ -50,9 +50,10 @@ public class MainServer {
         logger.debug(session.getId() + " has opened a connection");
         
         initPlayer(session);
-        
-        JSONArray json = createGameListMsg();
-        sendText(session, json.toString());
+                
+        ConnectMsg msg = new ConnectMsg();
+        msg.setPlayer(players.get(session.getId()));
+        sendJson(session, msg.toJson());
     }
  
     /**
@@ -164,6 +165,7 @@ public class MainServer {
     }
     
     private void turn(TurnMsg msg) {
+        
         for(Player player : players.values()) {
             Session session = sessions.get(player.getId());
             sendJson(session, msg.toJson());
@@ -189,24 +191,6 @@ public class MainServer {
         }
     }
 
-    private JSONArray createGameListMsg() {
-        JSONArray json = new JSONArray();
-        
-        for(GameHandler handler : games.values()) {
-            Game game = handler.getGame();            
-            JSONObject jsonGame = new JSONObject();
-            jsonGame.put("game", game.getId());
-            
-            int i=1;
-            for(Team team : game.getTeams()) {
-                jsonGame.put("team"+i, team.getId());
-                i++;
-            }
-            json.put(jsonGame);
-        }
-        
-        return json;
-    }
     
     private void initPlayer(Session session) {
         Player player = new Player(session.getId());
@@ -220,6 +204,10 @@ public class MainServer {
     
     public static GameHandler getGameHandlerById(Long id) {
         return games.get(id);
+    }
+       
+    public static Collection<GameHandler> getGameHandlers() {
+        return games.values();
     }
    
     public static Game getGameById(Long id) {
