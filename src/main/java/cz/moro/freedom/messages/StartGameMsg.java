@@ -18,7 +18,6 @@ public class StartGameMsg extends Message {
         super(Message.Type.START_GAME);
     }
 
-
     @Override
     public JSONObject toJson() {
         JSONObject json = super.toJson();

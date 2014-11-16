@@ -84,7 +84,6 @@ public class GameHandler {
 
                             mainServer.sendGameScoreMessage(game, gameScore);
 
-
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
