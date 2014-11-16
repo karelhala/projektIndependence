@@ -42,11 +42,6 @@ public class MainServer {
         
         initPlayer(session);
         
-        try {
-            session.getBasicRemote().sendText("Connection Established");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
  
     /**
@@ -64,9 +59,10 @@ public class MainServer {
         }
         
         Message msg = JsonMessageParser.parse(message);
-        msg.setPlayer(player);
         
         if(msg != null) {
+            msg.setPlayer(player);
+            
             switch(msg.getType()) {
                 case START_GAME:
                     startGame((StartGameMsg) msg);
@@ -82,6 +78,7 @@ public class MainServer {
                 
             }
         }
+        
     }
     
     /**
@@ -117,7 +114,10 @@ public class MainServer {
     }
     
     private void turn(TurnMsg msg) {
-        
+        for(Player player : players.values()) {
+            Session session = sessions.get(player.getId());
+            sendJson(session, msg.toJson());
+        }
     }
      
     

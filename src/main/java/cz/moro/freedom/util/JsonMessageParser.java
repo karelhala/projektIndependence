@@ -19,13 +19,14 @@ public class JsonMessageParser {
     
     public static Message parse(String raw) {
         JSONObject json = null;
+        String type = null;
         try {
             json = new JSONObject(raw);
+            type = json.getString("type");
         } catch(JSONException e) {
             logger.warn("Cannot parse msg " + raw);
             return null;
         }
-        String type = json.getString("type");
         
         switch(Type.fromString(type)) {
             case CHAT:
