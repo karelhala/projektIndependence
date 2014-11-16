@@ -1,26 +1,6 @@
-define(['react', 'bootstrap', 'actions/DummyAction', 'stores/DummyStore'], function(React, Bootstrap, DummyAction, DummyStore) {
+define(['react', 'bootstrap'], function(React, Bootstrap) {
 
 	return React.createClass({
-
-    getBrandText: function() {
-      return {
-        Brand: DummyStore.getBrandText()
-      };
-    },
-
-    getInitialState: function() {
-      return this.getBrandText();
-    },
-
-    componentDidMount: function() {
-      console.log("Header.componentDidMount");
-      DummyStore.addChangeListener(this._onChange);
-    },
-
-    componentWillUnmount: function() {
-      console.log("Header.componentWillUnmount");
-      DummyStore.removeChangeListener(this._onChange);
-    },
 
 		render: function() {
 
@@ -34,22 +14,11 @@ define(['react', 'bootstrap', 'actions/DummyAction', 'stores/DummyStore'], funct
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <a className="navbar-brand" href="#" onDoubleClick={this._onBrandDoubleClick}>{this.state.Brand}</a>
+              <a className="navbar-brand" href="#">{this.props.Brand}</a>
             </div>
           </div>
         </nav>
       );
-		},
-
-    _onChange: function() {
-      console.log("Header._onChange");
-      this.setState(this.getBrandText());
-    },
-
-    _onBrandDoubleClick: function() {
-      var Brand = this.state.Brand + " changed";
-      DummyAction.testAction(Brand);
-    },
+		}
 	});
-
 });
