@@ -1,6 +1,12 @@
-define(['react', 'bootstrap'], function(React) {
+define(['react', 'bootstrap', 'actions/DummyAction', 'stores/DummyStore'], function(React, Bootstrap, DummyAction, DummyStore) {
 
 	return React.createClass({
+
+    _onBrandDoubleClick: function() {
+      var Brand = this.props.Brand;
+      DummyAction.testAction(Brand);
+    },
+
 		render: function() {
 			var Brand = this.props.Brand;
 
@@ -14,7 +20,7 @@ define(['react', 'bootstrap'], function(React) {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <a className="navbar-brand" href="#">{Brand}</a>
+              <a className="navbar-brand" href="#" onDoubleClick={this._onBrandDoubleClick}>{Brand}</a>
             </div>
           </div>
         </nav>

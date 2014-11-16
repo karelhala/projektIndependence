@@ -2,8 +2,16 @@ define(['react', 'bootstrap'], function(React) {
 
 	var Message = React.createClass({
 		render: function(){
+			if (this.props.userId == userId)
+			{
+				return(
+					<div className="message my-message">
+              			{this.props.text}
+					</div>
+					)
+			}
 			return(
-				<div class="message">
+				<div className="message">
               		{this.props.text}
 				</div>
 				)
@@ -12,13 +20,12 @@ define(['react', 'bootstrap'], function(React) {
 
 	var MessageList = React.createClass({
 		render: function(){
-			console.log(this);
 			var renderMessage = function(dataMessage){
 				if (dataMessage){
 					var message = "[" + dataMessage.to + "]";
 					message+= " <" + dataMessage.player + ">: ";
 					message+= dataMessage.msg;
-					return <Message text={message} />
+					return <Message text={message} userId={dataMessage.player}/>
 				}
 				return null;
 			}

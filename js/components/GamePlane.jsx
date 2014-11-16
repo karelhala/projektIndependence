@@ -17,8 +17,6 @@ define([
 			)
 {
 
-webSocket = new WebSocket("ws://192.168.2.67:8080/freedom/server");
-
 var GamePlane = React.createClass({
 	componentDidMount: function() {
 		var canvas = document.getElementById("canvas");
@@ -34,6 +32,9 @@ var GamePlane = React.createClass({
 			console.log(data);
 			console.log(type);
 
+			if (type == "CONNECT"){
+				userId = data.player;
+			}
 			if(type == "TURN") {
 				_that.makeTurn(data.x, data.y);
 			}

@@ -8,8 +8,8 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 						<Header Brand="World Of Gomoku"/>
 						<div className="container">
 							<GamePlane />
+							<MainSection />
 						</div>
-						<MainSection />
 					</div>
 			);
 		}

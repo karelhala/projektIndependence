@@ -17,3 +17,7 @@ nav.navbar a.navbar-brand:hover {
     width: 75%;
     height: 100%;
 }
+
+div.my-message{
+    font-weight: bold;
+}
