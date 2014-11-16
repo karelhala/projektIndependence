@@ -17,6 +17,7 @@ define(["estedispatcher", "objectassign"], function(EsteDispatcher, ObjectAssign
 		 webSocket.onmessage = function(event){
 			 var data = JSON.parse(event.data);
 			 var type = data.type;
+			 userId = data.player;
 			 that.dispatch(type, data);
 		 }
     }

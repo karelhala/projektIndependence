@@ -42,6 +42,10 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 		  _games = payload.games;
 		  DummyStore.emitChange();
 	  }
+	  else if (action == 'GAME_CREATED')
+	  {
+
+	  }
 //    BrandValue = payload.text;
 //
 //
