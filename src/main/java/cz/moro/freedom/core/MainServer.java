@@ -17,8 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import cz.moro.freedom.core.handlers.GameHandler;
 import cz.moro.freedom.messages.ChatMsg;
+import cz.moro.freedom.messages.EndMsg;
 import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.StartGameMsg;
+import cz.moro.freedom.messages.StartMsg;
 import cz.moro.freedom.messages.TurnMsg;
 import cz.moro.freedom.model.Player;
 import cz.moro.freedom.model.Team;
@@ -108,11 +110,15 @@ public class MainServer {
      }
     
     public void sendStartRoundMessage(Team team) {
-        
+        StartMsg msg = new StartMsg();
+        msg.setTeam(team);
+        sendJson(team.getPlayers(), msg.toJson());
     }
     
     public void sendEndRoundMessage(Team team) {
-        
+        EndMsg msg = new EndMsg();
+        msg.setTeam(team);
+        sendJson(team.getPlayers(), msg.toJson());
     }
     
     public void sendGameScoreMessage(Player player) {
@@ -123,12 +129,12 @@ public class MainServer {
     private void chat(ChatMsg msg) {
         switch(msg.getGroup()) {
             case ALL:
-                sendChatMsg(players.values(), msg);
+                sendJson(players.values(), msg.toJson());
                 break;
             case GAME:
                 break;
             case TEAM:
-                sendChatMsg(msg.getPlayer().getTeam().getPlayers(), msg);
+                sendJson(msg.getPlayer().getTeam().getPlayers(), msg.toJson());
                 break;
             default:
                 break;            
@@ -141,12 +147,11 @@ public class MainServer {
             sendJson(session, msg.toJson());
         }
     }
-     
-    
-    private void sendChatMsg(Collection<Player> players, ChatMsg msg) {
+         
+    private void sendJson(Collection<Player> players, JSONObject json) {
         for(Player player : players) {
             Session session = sessions.get(player.getId());
-            sendJson(session, msg.toJson());
+            sendJson(session, json);
         }
     }
     

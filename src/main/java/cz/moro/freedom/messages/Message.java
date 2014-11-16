@@ -48,7 +48,9 @@ public class Message {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("type", type);
-        json.put("player", player.getId());
+        if(player!= null) {
+            json.put("player", player.getId());
+        }
         
         return json;
     }
