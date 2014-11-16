@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import cz.moro.freedom.core.MainServer;
 import cz.moro.freedom.core.handlers.GameHandler;
 import cz.moro.freedom.model.Game;
-import cz.moro.freedom.model.Team;
 
 
 public class InitialConnectMsg extends Message {
@@ -32,12 +31,7 @@ public class InitialConnectMsg extends Message {
             Game game = handler.getGame();            
             JSONObject jsonGame = new JSONObject();
             jsonGame.put("game", game.getId());
-            
-            int i=1;
-            for(Team team : game.getTeams()) {
-                jsonGame.put("team"+i, team.getId());
-                i++;
-            }
+            game.toJson(jsonGame);
             json.put(jsonGame);
         }
         

@@ -37,9 +37,9 @@ public class MainServer {
     
     private final Logger logger = LoggerFactory.getLogger(MainServer.class);
     
-    private static Map<String, Session> sessions = new ConcurrentHashMap<>();
-    private static Map<String, Player> players = new ConcurrentHashMap<>();
-    private static Map<Long, GameHandler> games = new ConcurrentHashMap<>();
+    private static final Map<String, Session> sessions = new ConcurrentHashMap<>();
+    private static final Map<String, Player> players = new ConcurrentHashMap<>();
+    private static final Map<Long, GameHandler> games = new ConcurrentHashMap<>();
     
     /**
      * @OnOpen allows us to intercept the creation of a new session.
@@ -195,6 +195,7 @@ public class MainServer {
     
     private void sendJson(Collection<Player> players, JSONObject json) {
         for(Player player : players) {
+            logger.debug(player.getId() + " " + sessions.get(player.getId()) + " " + sessions.size());
             Session session = sessions.get(player.getId());
             sendJson(session, json);
         }
@@ -222,8 +223,9 @@ public class MainServer {
     
     private void initPlayer(Session session) {
         Player player = new Player(session.getId());
-        sessions.put(player.getId(),session);
+        sessions.put(player.getId(), session);
         players.put(player.getId(), player);
+        logger.debug(player.getId() + " " + sessions.get(player.getId()) + " " + sessions.size());
     }
     
     public static Player getPlayerById(String id) {
