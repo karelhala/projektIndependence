@@ -6,27 +6,29 @@ require.config({
 		"JSXTransformer": "static/JSXTransformer",
 		"easeljs": "static/easeljs-0.7.1.min",
     	"bootstrap": "static/bootstrap.min",
-		"react-router": "static/react-router",
 		'react-router-shim': 'static/react-router-shim'
 	},
 
 	jsx: {
 		fileExtension: '.jsx'
 	},
-
-	shim:    {
-		'react-router-shim': {
-			exports: 'React'
-		},
-		'react-router': {
-			deps:    ['react-router-shim'],
-			exports: 'ReactRouter'
+	shim: {
+		"easeljs": {
+			exports: "createjs"
 		}
 	}
 });
 
-require(['react', 'jsx!components/WorldOfGomokuApp', 'react-router'], function(React, WorldOfGomoku, Router) {
+require(['react', 'jsx!components/WorldOfGomokuApp'], function(React, WorldOfGomoku) {
 	webSocket = new WebSocket("ws://192.168.2.67:8080/freedom/server");
+	webSocket.onmessage = function(event){
+		var data = JSON.parse(event.data);
+		var type = data.type;
+		if (type == "CONNECT")
+		{
+			userId = data.player;
+		}
+	};
 	var worldOfGomoku = React.createFactory(WorldOfGomoku);
 	// Mount the JSX component in the app container
 	React.renderComponent(

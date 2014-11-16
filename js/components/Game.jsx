@@ -1,21 +1,47 @@
 define(['react', 'bootstrap'], function(React) {
 
+	var Message = React.createClass({
+		render: function(){
+			return(
+				<div class="message">
+              		{this.props.text}
+				</div>
+				)
+		}
+	});
+
+	var MessageList = React.createClass({
+		render: function(){
+			console.log(this);
+			var renderMessage = function(dataMessage){
+				if (dataMessage){
+					var message = "[" + dataMessage.to + "]";
+					message+= " <" + dataMessage.player + ">: ";
+					message+= dataMessage.msg;
+					return <Message text={message} />
+				}
+				return null;
+			}
+			return (
+				<div class='messages'>
+					<h2> Conversation: </h2>
+              { this.props.textMessages.map(renderMessage)}
+				</div>
+				);
+		}
+	});
+
 	return React.createClass({
-		createMessage: function(data){
-			var newMessage = "[" + data.to + "]";
-			newMessage+= " <" + data.player + ">: ";
-			newMessage+= data.msg;
-			return newMessage;
-		},
 		getInitialState: function() {
 			return {
-				textMessages: ''
+				textMessages: []
 			};
 		},
 		appendNewMessage: function(message){
+			this.state.textMessages.push(message);
 			this.setState(
 				{
-					textMessages: this.state.textMessages+"\n" + message
+					textMessages: this.state.textMessages
 				}
 			);
 		},
@@ -27,9 +53,11 @@ define(['react', 'bootstrap'], function(React) {
 			webSocket.onmessage = function(event){
 				var data = JSON.parse(event.data);
 				var type = data.type;
-				that.appendNewMessage(that.createMessage(data));
-				console.log(data);
-			}
+				if (type == "CHAT")
+				{
+					that.appendNewMessage(data);
+				}
+			};
 			if (this.state.chatMessage){
 				var chatMessage = {
 					type: 'CHAT',
@@ -47,7 +75,7 @@ define(['react', 'bootstrap'], function(React) {
 					<div className="panel-body" >
 						<div>
 							<div className="input-group">
-								<textarea className="form-control" rows="30" disabled="disabled" value={this.state.textMessages}></textarea>
+								<MessageList textMessages={this.state.textMessages} />
 							</div>
 							<div className="input-group">
 								<input
