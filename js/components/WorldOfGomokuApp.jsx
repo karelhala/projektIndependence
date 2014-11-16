@@ -1,4 +1,4 @@
-define(['react'], function(React) {
+define(['react', 'jsx!components/Header'], function(React, Header) {
 
 	/**
 	 *
@@ -7,7 +7,7 @@ define(['react'], function(React) {
 
 		render: function() {
 			// JSX code
-			return <p>asdasdads </p>;
+			return <Header />;
 		}
 	});
 

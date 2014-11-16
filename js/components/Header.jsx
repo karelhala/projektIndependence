@@ -1,4 +1,6 @@
-define(['react'], function(React) {
+define(['react', 'react-boostrap'], function(React, Bootstrap) {
+
+  var Panel = Bootstrap.Panel;
 
 	/**
 	 *
@@ -7,7 +9,7 @@ define(['react'], function(React) {
 
 		render: function() {
 			// JSX code
-			return <p>asdasdads </p>;
+			return <Panel header="Panel heading without title"/>;
 		}
 	});
 
