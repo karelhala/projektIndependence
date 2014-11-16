@@ -1,4 +1,4 @@
-define(['react', 'react-boostrap'], function(React, boostrap) {
+define(['react'], function(React) {
 	var Panel = boostrap.Panel;
 
 	/**
@@ -6,7 +6,6 @@ define(['react', 'react-boostrap'], function(React, boostrap) {
 	 */
 	var TimeMessage = React.createClass({
 		render: function() {
-			console.log(boostrap);
 			var elapsed = Math.round(this.props.elapsed  / 100);
 			var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
 			var message =

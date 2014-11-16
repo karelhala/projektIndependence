@@ -5,7 +5,7 @@ require.config({
 		"react": "static/react-with-addons",
 		"JSXTransformer": "static/JSXTransformer",
 		"easeljs": "static/easeljs-0.7.1.min",
-    	"react-boostrap": "static/react-bootstrap"
+    "bootstrap": "static/bootstrap.min"
 	},
 
 	jsx: {
