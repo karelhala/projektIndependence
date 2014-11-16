@@ -1,4 +1,4 @@
-define(['react', 'bootstrap'], function(React, Bootstrap) {
+define(['react', 'bootstrap'], function(React) {
 
 	return React.createClass({
 		render: function() {

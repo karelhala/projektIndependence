@@ -1,9 +1,11 @@
-define(['react', 'jsx!components/Header'], function(React, Header) {
+define(['react', 'jsx!components/Header', 'jsx!components/MainSection'], function(React, Header, Game) {
 
 	return React.createClass({
 		render: function() {
-			// JSX code
-			return <Header Brand="World Of Gomoku" />;
+			return (<div>
+			<Header Brand="World Of Gomoku" />
+					<Game />
+			</div>);
 		}
 	});
 

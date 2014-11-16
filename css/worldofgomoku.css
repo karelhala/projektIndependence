@@ -7,3 +7,13 @@ nav.navbar a.navbar-brand,
 nav.navbar a.navbar-brand:hover {
   color: white;
 }
+.panel-chat{
+    float: right;
+    width: 25%;
+    padding-bottom: 5px;
+}
+.panel-game{
+    float: left;
+    width: 75%;
+    height: 100%;
+}
