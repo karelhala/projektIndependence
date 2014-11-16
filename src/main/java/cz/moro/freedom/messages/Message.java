@@ -1,12 +1,16 @@
 package cz.moro.freedom.messages;
 
+import cz.moro.freedom.model.Player;
+
 
 
 public class Message {
     
     protected Type type;
+    protected Player player;
 
     public enum Type {
+        START_GAME,
         TURN,
         CHAT;
         
@@ -27,6 +31,14 @@ public class Message {
 
     public Type getType() {
         return type;
+    }
+    
+    public Player getPlayer() {    
+        return player;
+    }
+    
+    public void setPlayer(Player player) {    
+        this.player = player;
     }
     
 }
