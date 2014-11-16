@@ -18,7 +18,7 @@ public class Game {
 
     private final World world;
     private final List<Team> teams;
-
+    
     public Game() {
 
         this.world = new World();
@@ -28,7 +28,15 @@ public class Game {
         }
     }
 
-
+    public int getPlayersCout(){
+    	int count = 0;
+    	for (Team team : teams) {
+			count += team.getPlayers().size();
+		}
+    	
+    	return count;
+    }
+    
     public World getWorld() {
         return world;
     }

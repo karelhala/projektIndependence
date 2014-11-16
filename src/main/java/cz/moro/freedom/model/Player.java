@@ -8,12 +8,24 @@ public class Player {
     private String name;
     private Team team;
     private Game game;
+    private Character character = Character.NORMAL; 
     
     public Player(String id) {
         this.id = id;        
     }
+    
+    
+    public Character getCharacter() {
+		return character;
+	}
 
-    public void setName(String name) {
+
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
+
+
+	public void setName(String name) {
         this.name = name;
     }
     

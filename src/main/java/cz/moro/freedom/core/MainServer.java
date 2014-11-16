@@ -136,6 +136,7 @@ public class MainServer {
         sendWorld(game, msg.getPlayer());
 
         if (gameHandler.isGameReady()) {
+        	gameHandler.setCharacterToPlayer();
             gameHandler.startGame(this);
         }
     }
