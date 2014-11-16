@@ -40,8 +40,10 @@ var GamePlane = React.createClass({
 		}
 		this.renderer.stage.on("stagemousedown", function(event) { 
 			var square = _that.renderer.getSquareByCoords(event.stageX, event.stageY); 
-			square.type = "TURN"; 
-			webSocket.send(JSON.stringify(square)); 
+			if(!_that.playground.occupied(square.x, square.y)) {
+				square.type = "TURN"; 
+				webSocket.send(JSON.stringify(square)); 
+			}
 		}); 
 	},
 
