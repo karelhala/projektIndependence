@@ -41,8 +41,6 @@ define(['dispatcher/AppDispatcher', 'actions/ChatActionCreators', 'constants/Cha
       };
       webSocket.send(JSON.stringify(chatMessage));
     },
-
-
     send: function(data) {
       webSocket.send(data);
     },

@@ -28,6 +28,7 @@ define([
 				this.renderer = new Renderer();
 				this.renderer.renderPlayGround(this.playground);
 				_that = this;
+
 		// webSocket.onmessage = function(event){
 		// 	var data = JSON.parse(event.data);
 		// 	var type = data.type;
