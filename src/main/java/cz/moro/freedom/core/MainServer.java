@@ -172,7 +172,7 @@ public class MainServer {
                     TurnMsg msg = new TurnMsg();
                     msg.setX(x);
                     msg.setY(y);
-                    msg.setPlayer(player);
+                    msg.setPlayer(cell.getPlayer());
                     msg.setGame(game);
                     sendJson(sessions.get(player.getId()), msg.toJson());
                 }
