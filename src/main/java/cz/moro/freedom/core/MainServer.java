@@ -116,6 +116,9 @@ public class MainServer {
             
             games.put(game.getId(), gameHandler);
             
+            Session session = sessions.get(msg.getPlayer().getId());
+            sendCreateGameMsg(session, game);
+            
         } else {
             gameHandler = games.get(msg.getGame().getId());
         }
@@ -191,6 +194,19 @@ public class MainServer {
         }
     }
 
+    private void sendCreateGameMsg(Session session, Game game) {
+
+        JSONObject json = new JSONObject();
+        json.put("type", "GAME_CREATED");
+        json.put("game", game.getId());
+        int i=1;
+        for(Team team : game.getTeams()) {
+            json.put("team"+i, team.getId());
+            i++;
+        }
+        
+        sendJson(session, json);
+    }
     
     private void initPlayer(Session session) {
         Player player = new Player(session.getId());
