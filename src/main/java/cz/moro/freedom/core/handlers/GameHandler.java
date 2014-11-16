@@ -1,9 +1,13 @@
 package cz.moro.freedom.core.handlers;
 
+import java.util.List;
+
 import cz.moro.freedom.core.MainServer;
 import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Player;
 import cz.moro.freedom.model.Team;
+import cz.moro.freedom.service.ScoreCounter;
+import cz.moro.freedom.service.ScoreCounter.Score;
 
 
 public class GameHandler {
@@ -75,8 +79,10 @@ public class GameHandler {
 
                             mainServer.sendEndRoundMessage(teamInRound);
                             changeTeamInRound();
-                            
-                            mainServer.sendGameScoreMessage(null);
+
+                            List<Score> gameScore = ScoreCounter.getGameScore(game);
+
+                            mainServer.sendGameScoreMessage(game, gameScore);
 
 
                         } catch (InterruptedException e) {
@@ -92,13 +98,17 @@ public class GameHandler {
     }
 
     private void changeTeamInRound() {
-        
-        if(game.getTeams() != null && !game.getTeams().isEmpty()) {
-            
-            teamInRoundIndex = (teamInRoundIndex+1 < game.getTeams().size()) ? (teamInRoundIndex + 1) : 0 ;
-            
+
+        if (game.getTeams() != null && !game.getTeams().isEmpty()) {
+
+            teamInRoundIndex = (teamInRoundIndex + 1 < game.getTeams().size()) ? (teamInRoundIndex + 1) : 0;
+
             teamInRound = game.getTeams().get(teamInRoundIndex);
         }
+    }
+
+    public Game getGame() {
+        return game;
     }
 
 }

@@ -9,7 +9,7 @@ import cz.moro.freedom.model.Player;
 import cz.moro.freedom.model.Team;
 import cz.moro.freedom.model.World;
 
-public class CountScore {
+public class ScoreCounter {
 	private static final int LENGTH_OF_SEQUENCE = 3;
 	
 	public static class Score {
@@ -41,7 +41,7 @@ public class CountScore {
 
 	}
 
-	public static List<Score> makeCount(Game game) {
+	public static List<Score> getGameScore(Game game) {
 
 		World world = game.getWorld();
 		List<Score> totalScore = initScore(game.getTeams());

@@ -2,6 +2,7 @@ package cz.moro.freedom.core;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,8 +23,10 @@ import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.StartGameMsg;
 import cz.moro.freedom.messages.StartMsg;
 import cz.moro.freedom.messages.TurnMsg;
+import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Player;
 import cz.moro.freedom.model.Team;
+import cz.moro.freedom.service.ScoreCounter.Score;
 import cz.moro.freedom.util.JsonMessageParser;
 
 @ServerEndpoint("/server")
@@ -100,7 +103,18 @@ public class MainServer {
     
     private void startGame(StartGameMsg msg) {
         
-        GameHandler gameHandler = games.get(msg.getGame().getId());
+        GameHandler gameHandler;
+        
+        if(msg.getGame() == null) {
+
+            Game game = new Game();
+            gameHandler = new GameHandler(game);
+            
+            games.put(game.getId(), gameHandler);
+            
+        } else {
+            gameHandler = games.get(msg.getGame().getId());
+        }
         
         gameHandler.addPlayer(msg.getTeam(), msg.getPlayer());
         
@@ -121,7 +135,7 @@ public class MainServer {
         sendJson(team.getPlayers(), msg.toJson());
     }
     
-    public void sendGameScoreMessage(Player player) {
+    public void sendGameScoreMessage(Game game, List<Score> gameScore) {
         
     }
         
