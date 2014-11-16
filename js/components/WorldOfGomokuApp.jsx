@@ -2,7 +2,6 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 
 	var PaneForGame = React.createClass({
 		handleClick: function(){
-			console.log("asdasda -> ", this);
 			var serverMessage = {
 				type: 'START_GAME',
 				game: this.gameId
@@ -12,11 +11,15 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 
 		render: function(){
 			this.gameId = this.props.text;
+			console.log(this.props,"dfgsdfgsdfgsdfg");
 			return(
 				<div className="panel panel-default">
 					<div className="panel-heading" >{this.props.text ? this.props.text : "New Game"}</div>
 					<div className="panel-body" >
 						<div>
+							<div>
+								<span>{this.props.text ? "Players: " : ""}{this.props.players}</span>
+							</div>
 							<button type="button" className="btn btn-default" aria-label="Left Align" onClick={this.handleClick}>
 								Take me to game!
 							</button>
@@ -37,7 +40,7 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 		render: function(){
 			var renderGamess = function(oneGame){
 				if (oneGame){
-					return <PaneForGame text={oneGame.game} />
+					return <PaneForGame text={oneGame.game} players={oneGame.players} />
 				}
 				return null;
 			};

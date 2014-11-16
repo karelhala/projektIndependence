@@ -19,7 +19,7 @@ define([], function() {
 	PlayGround.prototype.occupied = function (x, y) {
 		var occupied = false;
 		if(x >= this.width || y >= this.height) return true;
-
+/*
 		this.CIRCLES.forEach(function(circle) {
 			if(circle.x == x && circle.y == y) {
 				occupied = true;
@@ -30,7 +30,7 @@ define([], function() {
 			if(cross.x == x && cross.y == y) {
 				occupied = true;
 			}
-		});
+		});*/
 
 		return occupied;
 	}
