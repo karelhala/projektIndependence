@@ -12,6 +12,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,8 @@ public class MainServer {
         
         initPlayer(session);
         
+        JSONArray json = createGameListMsg();
+        sendText(session, json.toString());
     }
  
     /**
@@ -175,13 +178,35 @@ public class MainServer {
     }
     
     private void sendJson(Session session, JSONObject json) {
+        sendText(session, json.toString());
+    }
+    
+    private void sendText(Session session, String text) {
         try {
-            session.getBasicRemote().sendText(json.toString());
+            session.getBasicRemote().sendText(text);
         } catch (IOException e) {
             logger.warn("Error when sending msg", e);
         }
     }
 
+    private JSONArray createGameListMsg() {
+        JSONArray json = new JSONArray();
+        
+        for(GameHandler handler : games.values()) {
+            Game game = handler.getGame();            
+            JSONObject jsonGame = new JSONObject();
+            jsonGame.put("game", game.getId());
+            
+            int i=1;
+            for(Team team : game.getTeams()) {
+                jsonGame.put("team"+i, team.getId());
+                i++;
+            }
+            json.put(jsonGame);
+        }
+        
+        return json;
+    }
     
     private void initPlayer(Session session) {
         Player player = new Player(session.getId());

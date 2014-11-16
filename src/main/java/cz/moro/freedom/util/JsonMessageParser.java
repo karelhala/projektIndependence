@@ -66,15 +66,20 @@ public class JsonMessageParser {
     
     private static StartGameMsg parseStartGameMsg(JSONObject json) {
         StartGameMsg msg = new StartGameMsg();
+        Game game = null;
         
-        Game game = MainServer.getGameById(json.getLong("game"));
+        if(json.has("game")) {
+            game = MainServer.getGameById(json.getLong("game"));
+        }
         msg.setGame(game);
         
         if(game != null) {
-            Long id = json.getLong("team");
-            for(Team team : game.getTeams()) {
-                if(team.getId().equals(id)) {
-                    msg.setTeam(team);
+            if(json.has("team")) {
+                Long id = json.getLong("team");
+                for(Team team : game.getTeams()) {
+                    if(team.getId().equals(id)) {
+                        msg.setTeam(team);
+                    }
                 }
             }
         }

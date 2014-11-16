@@ -7,8 +7,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Game {
     
+    public static final int TEAMS_COUNT = 2;
+    
     private static AtomicLong idGenerator = new AtomicLong();
-    private static final int TEAMS_COUNT = 2;
+    
 
     private final Long id = idGenerator.incrementAndGet();
 
