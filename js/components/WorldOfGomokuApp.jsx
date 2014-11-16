@@ -1,4 +1,4 @@
-define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!components/MainSection', 'stores/DummyStore'], function(React, Header, GamePlane, MainSection, DummyStore) {
+define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!components/MainSection', 'stores/DummyStore', 'jsx!components/Timer'], function(React, Header, GamePlane, MainSection, DummyStore, Timer) {
 
 	var PaneForGame = React.createClass({
 		handleClick: function(){

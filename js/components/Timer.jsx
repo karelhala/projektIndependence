@@ -1,5 +1,4 @@
-define(['react'], function(React) {
-	var Panel = boostrap.Panel;
+define(['react', 'stores/DummyStore'], function(React, DummyStore) {
 
 	/**
 	 * <TimeMessage elapsed={100} />
@@ -8,11 +7,9 @@ define(['react'], function(React) {
 		render: function() {
 			var elapsed = Math.round(this.props.elapsed  / 100);
 			var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
-			var message =
-				'React has been successfully running for ' + seconds + ' seconds.';
-
+			var message = 'React has been successfully running for ' + seconds + ' seconds.';
 			// JSX code
-			return <Panel header="Cas od spusteni" bsStyle="success" />;
+			return;
 		}
 	});
 
@@ -21,20 +18,36 @@ define(['react'], function(React) {
 	 */
 	var Timer = React.createClass({
 		getInitialState: function() {
-			return {now: new Date()};
+			return {elapsed: 0,
+				visible: false};
 		},
 
 		componentDidMount: function(el, root) {
 			var that = this;
+			DummyStore.addResetTimeListener(this.resetTime);
+
 			setInterval(function() {
-				that.setState({now: new Date()});
-			}, 50);
+				var newElapsed = that.state.elapsed - 1000
+				that.setState({elapsed: newElapsed});
+			}, 1000);
+		},
+
+		resetTime: function() {
+			this.setState({elapsed: DummyStore.getTurnTime(),
+				visible: true});
+
 		},
 
 		render: function() {
-			// JSX code
-			var elapsed = this.state.now.getTime() - this.props.start.getTime();
-			return <TimeMessage elapsed={elapsed} />;
+			var elapsed = Math.round(this.state.elapsed / 1000);
+			if(!this.state.visible) {
+				return (<div id="game-timer"><span>Wait for game start.</span></div>);
+			} else if(elapsed >= 0) {
+				return (<div id="game-timer"><span>End turn in: </span>{elapsed}s</div>);
+			} else {
+				elapsed += Math.round(DummyStore.getTurnTime() / 1000);
+				return  (<div id="game-timer"><span>Enemy turn end in: </span>{elapsed}s</div>);
+			}
 		}
 	});
 

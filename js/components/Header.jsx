@@ -1,5 +1,5 @@
 define(['react', 'bootstrap'], function(React, Bootstrap) {
-
+  
 	return React.createClass({
 
 		render: function() {

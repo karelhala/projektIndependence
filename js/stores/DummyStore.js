@@ -3,8 +3,11 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	var _games = [];
   var CHANGE_EVENT = "change";
 	var CONNECT_TO_GAME = "CONNECT_TO_GAME";
+	var START = "START";
+	var END = "END";
 	var TURN = "TURN";
 	var turnTeamNumber;
+	var turnTime;
 	var turnX;
 	var turnY;
   var DummyStore = ObjectAssign({}, EventEmitter.prototype, {
@@ -21,6 +24,10 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	  getTurnTeamNumber: function(){
 		return turnTeamNumber;
 	},
+      getTurnTime: function() {
+      	return turnTime;
+      },
+
     emitChange: function() {
       this.emit(CHANGE_EVENT);
     },
@@ -32,12 +39,20 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 		  this.emit(TURN);
 	  },
 
+	  emitResetTimer: function() {
+	  	this.emit(START);
+	  },
+
 	  addRedirectListener: function(callback){
 		  this.on(CONNECT_TO_GAME, callback);
 	  },
 
 	  addTurnHappendListener: function(callback){
 		  this.on(TURN, callback);
+	  },
+
+	  addResetTimeListener: function(callback) {
+	  	this.on(START, callback);
 	  },
 
     /**
@@ -58,19 +73,14 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
   Dispatcher.register(function(action, payload) {
     console.log(action);
     console.log(payload);
-	  if (action == 'CONNECT')
-	  {
+	  if (action == 'CONNECT') {
 		  userId = payload.player;
 		  _games = payload.games;
 		  DummyStore.emitChange();
-	  }
-	  else if (action == 'GAME_CREATED')
-	  {
+	  } else if (action == 'GAME_CREATED') {
 		  _games.push(payload);
 		  DummyStore.emitChange();
-	  }
-	  else if (action == CONNECT_TO_GAME)
-	  {
+	  } else if (action == CONNECT_TO_GAME) {
 		  if (userId ==  payload.player){
 			  game = payload.game;
 			  playerTeam = payload.playerTeam;
@@ -78,13 +88,14 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 			  team1 = payload.playerTeam;
 			  DummyStore.emitConnectGame();
 	  		}
-	  }
-	  else if (action == TURN)
-	  {
+	  } else if (action == TURN) {
 		turnTeamNumber = payload.team;
 		  turnX = payload.x;
 		  turnY = payload.y;
 		  DummyStore.emitTurnHappend();
+	  } else if (action == START) {
+	  	turnTime = payload.time;
+	  	DummyStore.emitResetTimer();
 	  }
   });
   return DummyStore;
