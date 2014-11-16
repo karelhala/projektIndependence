@@ -1,10 +1,9 @@
-body {
-  padding-top: 60px;
-}
 nav.navbar {
-  background: #0E096B;
+  background: #2c3e50;
 }
 
-nav.navbar span.navbar-brand {
+nav.navbar a,
+nav.navbar a.navbar-brand,
+nav.navbar a.navbar-brand:hover {
   color: white;
 }

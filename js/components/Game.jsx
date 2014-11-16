@@ -1,12 +1,8 @@
-define(['react', 'react-boostrap'], function(React, Boostrap) {
-	var Button = Boostrap.Button;
-	/**
-	 *
-	 */
+define(['react'], function(React) {
+
 	return React.createClass({
 		render: function() {
-			// JSX code
-			return <Button bsStyle="primary">Lobby</Button>;
+
 		}
 	});
 

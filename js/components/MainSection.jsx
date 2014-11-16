@@ -1,13 +1,10 @@
-define(['react', 'jsx!components/Lobby', 'react-boostrap'], function(React, Lobby, Boostrap) {
-	/**
-	 *
-	 */
+define(['react', 'jsx!components/Game'], function(React, Game) {
+
 	return React.createClass({
 		render: function() {
-			// JSX code
 			return(
 					<div>
-							<Lobby />
+						<Game />
 					</div>
 				);
 		}
