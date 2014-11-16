@@ -70,7 +70,7 @@ public class MainServer {
         if (player == null) {
             throw new Exception("Player with ID " + session.getId() + " not found");
         }
-
+        logger.debug("Parse: " + message);
         Message msg = JsonMessageParser.parse(message);
 
         if (msg != null) {
@@ -103,7 +103,6 @@ public class MainServer {
     public void onClose(Session session) {
         sessions.remove(session.getId());
         players.remove(session.getId());
-        logger.debug("Session " + session.getId() + " has ended");
     }
 
     private void startGame(StartGameMsg msg) {
@@ -180,6 +179,7 @@ public class MainServer {
     private void turn(TurnMsg msg) {
 
         Player playerInTurn = msg.getPlayer();
+        msg.setGame(msg.getPlayer().getGame());
         GameHandler gameHandler = getGameHandlerById(msg.getGame().getId());
 
         if (gameHandler.getGame().equals(playerInTurn.getGame()) && gameHandler.isThisTeamInRound(playerInTurn.getTeam())
@@ -231,7 +231,6 @@ public class MainServer {
         Player player = new Player(session.getId());
         sessions.put(player.getId(), session);
         players.put(player.getId(), player);
-        logger.debug(player.getId() + " " + sessions.get(player.getId()) + " " + sessions.size());
     }
 
     public static Player getPlayerById(String id) {

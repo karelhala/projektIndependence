@@ -61,10 +61,6 @@ public class JsonMessageParser {
         msg.setX(json.getInt("x"));
         msg.setY(json.getInt("y"));
 
-        if (json.has("game")) {
-            msg.setGame(MainServer.getGameById(json.getLong("game")));
-        }
-
         return msg;
     }
 
