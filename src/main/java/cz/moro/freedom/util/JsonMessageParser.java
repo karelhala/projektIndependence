@@ -33,7 +33,7 @@ public class JsonMessageParser {
             case TURN:
                 return parseTurnMsg(json);
             case START_GAME:
-                return parseStartMsg(json);
+                return parseStartGameMsg(json);
             default:
                 return null;
         }        
@@ -60,7 +60,7 @@ public class JsonMessageParser {
         return msg;
     }
     
-    private static StartGameMsg parseStartMsg(JSONObject json) {
+    private static StartGameMsg parseStartGameMsg(JSONObject json) {
         StartGameMsg msg = new StartGameMsg();
         
         return msg;

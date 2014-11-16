@@ -99,6 +99,7 @@ public class MainServer {
     private void startGame(StartGameMsg msg) {
         
     }
+        
     
     private void chat(ChatMsg msg) {
         switch(msg.getGroup()) {

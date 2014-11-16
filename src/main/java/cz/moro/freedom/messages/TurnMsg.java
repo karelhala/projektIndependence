@@ -2,13 +2,15 @@ package cz.moro.freedom.messages;
 
 import org.json.JSONObject;
 
+import cz.moro.freedom.model.Team;
+
 
 
 public class TurnMsg extends Message {
 
     private int x;
     private int y;
-   // private final Player player;
+    private Team team;
     
     public TurnMsg() {
         super(Message.Type.TURN);
@@ -36,6 +38,9 @@ public class TurnMsg extends Message {
         JSONObject json = super.toJson();
         json.put("x", x);
         json.put("y", y);
+        if(team != null) {
+            json.put("team", team.getId());
+        }
         
         return json;
     }

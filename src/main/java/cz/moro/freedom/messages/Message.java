@@ -13,6 +13,8 @@ public class Message {
 
     public enum Type {
         START_GAME,
+        START,
+        END,
         TURN,
         CHAT;
         
