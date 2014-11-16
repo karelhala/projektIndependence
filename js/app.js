@@ -26,6 +26,7 @@ require.config({
 });
 
 require(['react', 'jsx!components/WorldOfGomokuApp', 'react-router'], function(React, WorldOfGomoku, Router) {
+	webSocket = new WebSocket("ws://192.168.2.67:8080/freedom/server");
 	var worldOfGomoku = React.createFactory(WorldOfGomoku);
 	// Mount the JSX component in the app container
 	React.renderComponent(
