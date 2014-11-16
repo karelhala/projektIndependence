@@ -26,9 +26,11 @@ import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.StartGameMsg;
 import cz.moro.freedom.messages.StartMsg;
 import cz.moro.freedom.messages.TurnMsg;
+import cz.moro.freedom.model.Cell;
 import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Player;
 import cz.moro.freedom.model.Team;
+import cz.moro.freedom.model.World;
 import cz.moro.freedom.service.ScoreCounter.Score;
 import cz.moro.freedom.util.JsonMessageParser;
 
@@ -112,6 +114,7 @@ public class MainServer {
 
         if (msg.getGame() == null) {
 
+
             game = new Game();
             gameHandler = new GameHandler(game);
 
@@ -130,6 +133,7 @@ public class MainServer {
 
         ConnectToGame con = new ConnectToGame(msg.getPlayer(), game);
         sendJson(game, con.toJson());
+        sendWorld(game, msg.getPlayer());
 
         if (gameHandler.isGameReady()) {
             gameHandler.startGame(this);
@@ -157,6 +161,23 @@ public class MainServer {
 
         sendJson(game, gameScoreMsg.toJson());
 
+    }
+    
+    private void sendWorld(Game game, Player player) {
+        World world = game.getWorld();
+        for(int x=0; x < world.getWidth(); x++) {
+            for(int y=0; y < world.getHeight(); y++) {
+                Cell cell = world.getCell(x, y);
+                if(cell.getPlayer() != null) {
+                    TurnMsg msg = new TurnMsg();
+                    msg.setX(x);
+                    msg.setY(y);
+                    msg.setPlayer(player);
+                    msg.setGame(game);
+                    sendJson(sessions.get(player.getId()), msg.toJson());
+                }
+            }
+        }
     }
 
 

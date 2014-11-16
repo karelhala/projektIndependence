@@ -91,7 +91,7 @@ public class GameHandler {
     
                                 mainServer.sendGameScoreMessage(game, gameScore);
                             } catch(Exception e) {
-                                System.out.println(e.getMessage());
+                                e.printStackTrace();
                             }
                             
                         } catch (InterruptedException e) {
