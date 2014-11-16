@@ -42,10 +42,10 @@ define([
 				DummyStore.addTurnHappendListener(this.makeTurn);
 				this.renderer.stage.on("stagemousedown", function(event) {
 					var square = _that.renderer.getSquareByCoords(event.stageX, event.stageY);
-					if(!_that.playground.occupied(square.x, square.y)) {
+					//if(!_that.playground.occupied(square.x, square.y)) {
 						square.type = "TURN";
 						webSocket.send(JSON.stringify(square));
-					}
+					//}
 				});
 			},
 
