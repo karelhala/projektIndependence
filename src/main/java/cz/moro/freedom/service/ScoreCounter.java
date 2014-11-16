@@ -41,7 +41,7 @@ public class ScoreCounter {
 
 	}
 
-	public static List<Score> makeCount(Game game) {
+	public static List<Score> getGameScore(Game game) {
 
 		World world = game.getWorld();
 		List<Score> totalScore = initScore(game.getTeams());
