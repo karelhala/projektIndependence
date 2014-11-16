@@ -2,6 +2,7 @@ package cz.moro.freedom.messages;
 
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.moro.freedom.model.Team;
@@ -38,7 +39,13 @@ public class GameScoreMsg extends Message {
     public JSONObject toJson() {
        JSONObject jsonObject = super.toJson();
        
-       jsonObject.put("teams", teams);
+       JSONArray jsonScores = new JSONArray();
+       for(Score score : scores) {
+           JSONObject jsonScore = new JSONObject();
+           jsonScore.put("team", score.getId());
+           jsonScore.put("score", score.getTeamScore());
+           jsonScores.put(jsonScore);
+       }
        jsonObject.put("scores", scores);
        
        return jsonObject;
