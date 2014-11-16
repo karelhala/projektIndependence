@@ -1,10 +1,9 @@
 package cz.moro.freedom.core;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -27,7 +26,7 @@ public class MainServer {
     
     private final Logger logger = LoggerFactory.getLogger(MainServer.class);
     
-    private static Queue<Session> sessions = new ConcurrentLinkedQueue<>();
+    private static Map<String, Session> sessions = new ConcurrentHashMap<>();
     private static Map<String, Player> players = new ConcurrentHashMap<>();
     
     /**
@@ -79,28 +78,8 @@ public class MainServer {
                 break;
             
         }
-        /*
-        try {
-            for(Session s : sessions) {
-                s.getBasicRemote().sendText(message);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }*/
     }
     
-    private void startGame(StartGameMsg msg) {
-        
-    }
-    
-    private void chat(ChatMsg msg) {
-        
-    }
-    
-    private void turn(TurnMsg msg) {
-        
-    }
-     
     /**
      * The user closes the connection.
      * 
@@ -112,9 +91,45 @@ public class MainServer {
         logger.debug("Session " +session.getId()+" has ended");
     }
     
+    private void startGame(StartGameMsg msg) {
+        
+    }
+    
+    private void chat(ChatMsg msg) {
+        switch(msg.getGroup()) {
+            case ALL:
+                sendMessage(players.values(), msg.getMsg());
+                break;
+            case GAME:
+                break;
+            case TEAM:
+                sendMessage(msg.getPlayer().getTeam().getPlayers(), msg.getMsg());
+                break;
+            default:
+                break;            
+        }        
+    }
+    
+    private void turn(TurnMsg msg) {
+        
+    }
+     
+    
+    private void sendMessage(Collection<Player> players, String message) {
+        for(Player player : players) {
+            try {
+                Session session = sessions.get(player.getId());
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                logger.warn("Error when sending msg", e);
+            }
+        }
+    }
+
+    
     private void initPlayer(Session session) {
-        sessions.add(session);
         Player player = new Player(session.getId());
+        sessions.put(player.getId(),session);
         players.put(player.getId(), player);
     }
 }
