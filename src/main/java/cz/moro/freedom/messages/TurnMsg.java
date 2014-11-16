@@ -1,5 +1,7 @@
 package cz.moro.freedom.messages;
 
+import org.json.JSONObject;
+
 
 
 public class TurnMsg extends Message {
@@ -29,5 +31,12 @@ public class TurnMsg extends Message {
         this.y = y;
     }
             
-    
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("x", x);
+        json.put("y", y);
+        
+        return json;
+    }
 }

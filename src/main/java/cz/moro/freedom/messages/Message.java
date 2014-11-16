@@ -1,5 +1,7 @@
 package cz.moro.freedom.messages;
 
+import org.json.JSONObject;
+
 import cz.moro.freedom.model.Player;
 
 
@@ -41,4 +43,11 @@ public class Message {
         this.player = player;
     }
     
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("type", type);
+        json.put("player", player.getId());
+        
+        return json;
+    }
 }

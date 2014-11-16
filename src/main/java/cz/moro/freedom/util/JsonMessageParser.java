@@ -9,6 +9,7 @@ import cz.moro.freedom.messages.ChatMsg;
 import cz.moro.freedom.messages.ChatMsg.Group;
 import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.Message.Type;
+import cz.moro.freedom.messages.StartGameMsg;
 import cz.moro.freedom.messages.TurnMsg;
 
 
@@ -31,6 +32,8 @@ public class JsonMessageParser {
                 return parseChatMsg(json);
             case TURN:
                 return parseTurnMsg(json);
+            case START_GAME:
+                return parseStartMsg(json);
             default:
                 return null;
         }        
@@ -53,6 +56,12 @@ public class JsonMessageParser {
         TurnMsg msg = new TurnMsg();
         msg.setX(json.getInt("x"));
         msg.setY(json.getInt("y"));
+        
+        return msg;
+    }
+    
+    private static StartGameMsg parseStartMsg(JSONObject json) {
+        StartGameMsg msg = new StartGameMsg();
         
         return msg;
     }

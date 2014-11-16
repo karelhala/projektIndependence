@@ -11,6 +11,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +64,7 @@ public class MainServer {
         }
         
         Message msg = JsonMessageParser.parse(message);
+        msg.setPlayer(player);
         
         if(msg != null) {
             switch(msg.getType()) {
@@ -101,12 +103,12 @@ public class MainServer {
     private void chat(ChatMsg msg) {
         switch(msg.getGroup()) {
             case ALL:
-                sendMessage(players.values(), msg.getMsg());
+                sendChatMsg(players.values(), msg);
                 break;
             case GAME:
                 break;
             case TEAM:
-                sendMessage(msg.getPlayer().getTeam().getPlayers(), msg.getMsg());
+                sendChatMsg(msg.getPlayer().getTeam().getPlayers(), msg);
                 break;
             default:
                 break;            
@@ -118,14 +120,18 @@ public class MainServer {
     }
      
     
-    private void sendMessage(Collection<Player> players, String message) {
+    private void sendChatMsg(Collection<Player> players, ChatMsg msg) {
         for(Player player : players) {
-            try {
-                Session session = sessions.get(player.getId());
-                session.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                logger.warn("Error when sending msg", e);
-            }
+            Session session = sessions.get(player.getId());
+            sendJson(session, msg.toJson());
+        }
+    }
+    
+    private void sendJson(Session session, JSONObject json) {
+        try {
+            session.getBasicRemote().sendText(json.toString());
+        } catch (IOException e) {
+            logger.warn("Error when sending msg", e);
         }
     }
 

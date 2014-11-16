@@ -1,5 +1,7 @@
 package cz.moro.freedom.messages;
 
+import org.json.JSONObject;
+
 
 
 
@@ -41,6 +43,15 @@ public class ChatMsg extends Message {
     
     public void setMsg(String msg) {    
         this.msg = msg;
+    }
+    
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("to", group);
+        json.put("msg", msg);
+        
+        return json;
     }
     
     
