@@ -212,6 +212,7 @@ public class MainServer {
     private void sendText(Session session, String text) {
         try {
             if(session != null) {
+                logger.debug("Sending to " + session.getId() + ": " + text);
                 session.getBasicRemote().sendText(text);
             }
         } catch (IOException e) {

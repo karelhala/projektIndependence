@@ -66,7 +66,7 @@ public class GameHandler {
 
     public void startGame(final MainServer mainServer) {
 
-        if (isGameReady()) {
+        if (isGameReady() && (gameThread == null)) {
 
             teamInRound = game.getTeams().get(0);
 
@@ -86,10 +86,14 @@ public class GameHandler {
                             changeTeamInRound();
                             clearPlayersTurnedInRoundList();
 
-                            List<Score> gameScore = ScoreCounter.getGameScore(game);
-
-                            mainServer.sendGameScoreMessage(game, gameScore);
-
+                            try {
+                                List<Score> gameScore = ScoreCounter.getGameScore(game);
+    
+                                mainServer.sendGameScoreMessage(game, gameScore);
+                            } catch(Exception e) {
+                                System.out.println(e.getMessage());
+                            }
+                            
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

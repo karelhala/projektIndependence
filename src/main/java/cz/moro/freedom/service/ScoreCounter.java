@@ -87,7 +87,9 @@ public class ScoreCounter {
 				cell = world.getCell(x, y+x);
 				scoreold = getScoreFor(player,scoreold,cell);	
 				player = cell.getPlayer();
-				if (newy == world.getHeight()) break;
+				if (newy >= (world.getHeight()-1)) {
+				    break;
+				}
 			}
 		}
 		//diagony z lava do prava nad hlavnou
