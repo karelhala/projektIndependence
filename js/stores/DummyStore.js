@@ -3,13 +3,24 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	var _games = [];
   var CHANGE_EVENT = "change";
 	var CONNECT_TO_GAME = "CONNECT_TO_GAME";
-
+	var TURN = "TURN";
+	var turnTeamNumber;
+	var turnX;
+	var turnY;
   var DummyStore = ObjectAssign({}, EventEmitter.prototype, {
 
 	  getGames: function(){
 		  return _games;
 	  },
-
+	  getTurnY: function(){
+		  return turnY;
+	  },
+	  getTurnX: function(){
+		  return turnX;
+	  },
+	  getTurnTeamNumber: function(){
+		return turnTeamNumber;
+	},
     emitChange: function() {
       this.emit(CHANGE_EVENT);
     },
@@ -17,8 +28,16 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	  emitConnectGame: function() {
 		  this.emit(CONNECT_TO_GAME);
 	  },
+	  emitTurnHappend: function() {
+		  this.emit(TURN);
+	  },
+
 	  addRedirectListener: function(callback){
 		  this.on(CONNECT_TO_GAME, callback);
+	  },
+
+	  addTurnHappendListener: function(callback){
+		  this.on(TURN, callback);
 	  },
 
     /**
@@ -41,6 +60,7 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
     console.log(payload);
 	  if (action == 'CONNECT')
 	  {
+		  userId = payload.player;
 		  _games = payload.games;
 		  DummyStore.emitChange();
 	  }
@@ -55,7 +75,17 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 		  playerTeam = payload.playerTeam;
 		  team0 = payload.playerTeam;
 		  team1 = payload.playerTeam;
+		  console.log(userId, "      ", payload.player);
+		  if (userId ==  payload.player){
 			  DummyStore.emitConnectGame();
+	  		}
+	  }
+	  else if (action == TURN)
+	  {
+		turnTeamNumber = payload.team;
+		  turnX = payload.x;
+		  turnY = payload.y;
+		  DummyStore.emitTurnHappend();
 	  }
   });
   return DummyStore;
