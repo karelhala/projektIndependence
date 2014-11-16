@@ -187,6 +187,7 @@ public class MainServer {
             
             sendJson(gameHandler.getGame(), msg.toJson());
             gameHandler.addPlayerToTurningPlayerList(playerInTurn);
+            gameHandler.setPlayersTurnToWorld(msg.getX(), msg.getY(), playerInTurn);
             
         }
 
