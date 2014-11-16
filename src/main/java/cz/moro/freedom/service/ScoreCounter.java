@@ -84,10 +84,12 @@ public class ScoreCounter {
 			scoreold = 0l;
 			for (int x = 0; x < world.getWidth(); x++) {
 				int newy = y+x;
+				if (newy >= world.getHeight()) {
+					continue;				
+				}
 				cell = world.getCell(x, y+x);
 				scoreold = getScoreFor(player,scoreold,cell);	
 				player = cell.getPlayer();
-				if (newy == world.getHeight()) break;
 			}
 		}
 		//diagony z lava do prava nad hlavnou
@@ -95,6 +97,10 @@ public class ScoreCounter {
 			player = null;
 			scoreold = 0l;
 			for (int y = 0; y < world.getHeight(); y++) {
+				int newx = x+y;
+				if (newx >=world.getWidth()){
+					continue;
+				}
 				cell = world.getCell(x+y, y);
 				scoreold = getScoreFor(player,scoreold,cell);	
 				player = cell.getPlayer();
@@ -106,6 +112,10 @@ public class ScoreCounter {
 					player = null;
 					scoreold = 0l;
 					for (int x = 0; x < world.getWidth() ; x++) {
+						int newy = y-x;
+						if (newy < 0){
+							continue;
+						}
 						cell = world.getCell(x, y-x);
 						scoreold = getScoreFor(player,scoreold,cell);	
 						player = cell.getPlayer();
@@ -116,6 +126,10 @@ public class ScoreCounter {
 					player = null;
 					scoreold = 0l;
 					for (int y =0; y > world.getHeight(); y++) {
+						int newx = x-y;
+						if (newx < 0 ){
+							continue;
+						}
 						cell = world.getCell(x-y, y);
 						scoreold = getScoreFor(player,scoreold,cell);	
 						player = cell.getPlayer();
