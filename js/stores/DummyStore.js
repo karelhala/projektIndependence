@@ -1,10 +1,15 @@
 define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Dispatcher, ObjectAssign, EventEmitter) {
 
+	var _games = [];
   var CHANGE_EVENT = "change";
 
   var BrandValue = "nova hodnota dfgdfgdfgdfgdfg";
 
   var DummyStore = ObjectAssign({}, EventEmitter.prototype, {
+
+	  getGames: function(){
+		  return _games;
+	  },
 
     getBrandText: function() {
       return BrandValue;
@@ -32,12 +37,16 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
   Dispatcher.register(function(action, payload) {
     console.log(action);
     console.log(payload);
-
-    BrandValue = payload.text;
-
-
-    //propagace zmen do vsech navazanych komponent
-    DummyStore.emitChange();
+	  if (action == 'CONNECT')
+	  {
+		  _games = payload.games;
+		  DummyStore.emitChange();
+	  }
+//    BrandValue = payload.text;
+//
+//
+//    //propagace zmen do vsech navazanych komponent
+//    DummyStore.emitChange();
   });
   return DummyStore;
 });

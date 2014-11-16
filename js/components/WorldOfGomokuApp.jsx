@@ -1,4 +1,4 @@
-define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!components/MainSection'], function(React, Header, GamePlane, MainSection) {
+define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!components/MainSection', 'stores/DummyStore'], function(React, Header, GamePlane, MainSection, DummyStore) {
 
 	var PaneForGame = React.createClass({
 		handleClick: function(){
@@ -53,8 +53,13 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 				games: []
 			};
 		},
-		_concatGames: function(games){
-			this.state.games = this.state.games.concat(games);
+		componentDidMount: function() {
+			console.log("Header.componentDidMount");
+			DummyStore.addChangeListener(this._concatGames);
+		},
+
+		_concatGames: function(){
+			this.state.games = this.state.games.concat(DummyStore.getGames());
 			this.setState(
 				{
 					games: this.state.games
@@ -68,6 +73,7 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 					<div>
 						<Header Brand="World Of Gomoku"/>
 						<PaneForGame />
+						<GamePanel panelGames={this.state.games}/>
 					</div>
 			);
 		}

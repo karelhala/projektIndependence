@@ -34,17 +34,17 @@ require.config({
 require(['react', 'jsx!components/WorldOfGomokuApp', 'dispatcher/AppDispatcher'], function(React, WorldOfGomoku, AppDispatcher) {
 	webSocket = new WebSocket("ws://192.168.2.67:8080/freedom/server");
 	var worldOfGomoku = React.createFactory(WorldOfGomoku);
-	webSocket.onmessage = function(event){
-		var data = JSON.parse(event.data);
-		var type = data.type;
-		console.log(data);
-		console.log(type);
-
-		if (type == "CONNECT"){
-			userId = data.player;
-			console.log(worldOfGomoku());
-		}
-	};
+//	webSocket.onmessage = function(event){
+//		var data = JSON.parse(event.data);
+//		var type = data.type;
+//		console.log(data);
+//		console.log(type);
+//
+//		if (type == "CONNECT"){
+//			userId = data.player;
+//			console.log(worldOfGomoku());
+//		}
+//	};
 	AppDispatcher.handleServerAction({type: "serverLoad"});
 	// Mount the JSX component in the app container
 	React.render(
