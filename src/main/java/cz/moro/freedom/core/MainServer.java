@@ -136,6 +136,7 @@ public class MainServer {
         sendWorld(game, msg.getPlayer());
 
         if (gameHandler.isGameReady()) {
+        	gameHandler.setCharacterToPlayer();
             gameHandler.startGame(this);
         }
     }
@@ -172,7 +173,7 @@ public class MainServer {
                     TurnMsg msg = new TurnMsg();
                     msg.setX(x);
                     msg.setY(y);
-                    msg.setPlayer(cell.getPlayer());
+                    msg.setPlayer(player);
                     msg.setGame(game);
                     sendJson(sessions.get(player.getId()), msg.toJson());
                 }

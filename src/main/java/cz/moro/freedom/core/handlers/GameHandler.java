@@ -2,156 +2,173 @@ package cz.moro.freedom.core.handlers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import cz.moro.freedom.core.MainServer;
+import cz.moro.freedom.model.Character;
 import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Player;
 import cz.moro.freedom.model.Team;
 import cz.moro.freedom.service.ScoreCounter;
 import cz.moro.freedom.service.ScoreCounter.Score;
 
-
 public class GameHandler {
 
-    public static final Long ROUND_TIME_MILIS = 15000l;
+	public static final Long ROUND_TIME_MILIS = 15000l;
+	private static final int MIN_PLAYER = 3;
 
-    private final Game game;
+	private final Game game;
 
-    private Team teamInRound;
-    private int teamInRoundIndex = 0;
+	private Team teamInRound;
+	private int teamInRoundIndex = 0;
 
-    private Thread gameThread;
+	private Thread gameThread;
 
-    private Set<Player> playersTurnInRound = new HashSet<>();
+	private Set<Player> playersTurnInRound = new HashSet<>();
 
-    public GameHandler(Game game) {
-        super();
-        this.game = game;
-    }
+	public GameHandler(Game game) {
+		super();
+		this.game = game;
+	}
 
-    public void addPlayer(Team playerTeam, Player player) {
+	public void addPlayer(Team playerTeam, Player player) {
 
-        if (playerTeam == null || player == null) {
+		if (playerTeam == null || player == null) {
 
-            throw new IllegalArgumentException();
-        }
+			throw new IllegalArgumentException();
+		}
 
-        player.setTeam(playerTeam);
-        player.setGame(game);
+		player.setTeam(playerTeam);
+		player.setGame(game);
 
-        for (Team team : game.getTeams()) {
+		for (Team team : game.getTeams()) {
 
-            if (team.equals(playerTeam)) {
-                team.addPlayer(player);
-            }
-        }
-    }
+			if (team.equals(playerTeam)) {
+				team.addPlayer(player);
+			}
+		}
+	}
 
-    public boolean isThisTeamInRound(Team team) {
+	public boolean isThisTeamInRound(Team team) {
 
-        return team.equals(teamInRound);
-    }
+		return team.equals(teamInRound);
+	}
 
-    public boolean isGameReady() {
+	public boolean isGameReady() {
 
-        for (Team team : game.getTeams()) {
-            if (team.getPlayers() == null || team.getPlayers().size() == 0) {
-                return false;
-            }
-        }
+		for (Team team : game.getTeams()) {
+			if (team.getPlayers() == null || team.getPlayers().size() == 0) {
+				return false;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public void startGame(final MainServer mainServer) {
+	public void startGame(final MainServer mainServer) {
 
-        if (isGameReady() && (gameThread == null)) {
+		if (isGameReady() && (gameThread == null)) {
 
-            teamInRound = game.getTeams().get(0);
+			teamInRound = game.getTeams().get(0);
 
-            gameThread = new Thread(new Runnable() {
+			gameThread = new Thread(new Runnable() {
 
-                @Override
-                public void run() {
+				@Override
+				public void run() {
 
-                    while (!Thread.interrupted()) {
+					while (!Thread.interrupted()) {
 
-                        mainServer.sendStartRoundMessage(teamInRound);
+						mainServer.sendStartRoundMessage(teamInRound);
 
-                        try {
-                            Thread.sleep(ROUND_TIME_MILIS);
+						try {
+							Thread.sleep(ROUND_TIME_MILIS);
 
-                            mainServer.sendEndRoundMessage(teamInRound);
-                            changeTeamInRound();
-                            clearPlayersTurnedInRoundList();
+							mainServer.sendEndRoundMessage(teamInRound);
+							changeTeamInRound();
+							clearPlayersTurnedInRoundList();
 
-                            try {
-                                List<Score> gameScore = ScoreCounter.getGameScore(game);
+							try {
+								List<Score> gameScore = ScoreCounter
+										.getGameScore(game);
 
-                                mainServer.sendGameScoreMessage(game, gameScore);
-                            } catch(Exception e) {
-                                e.printStackTrace();
-                            }
+								mainServer
+										.sendGameScoreMessage(game, gameScore);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
 
-                }
-            });
+				}
+			});
 
-            gameThread.start();
-        }
-    }
+			gameThread.start();
+		}
+	}
 
-    private void changeTeamInRound() {
+	private void changeTeamInRound() {
 
-        if (game.getTeams() != null && !game.getTeams().isEmpty()) {
+		if (game.getTeams() != null && !game.getTeams().isEmpty()) {
 
-            teamInRoundIndex = (teamInRoundIndex + 1 < game.getTeams().size()) ? (teamInRoundIndex + 1) : 0;
+			teamInRoundIndex = (teamInRoundIndex + 1 < game.getTeams().size()) ? (teamInRoundIndex + 1)
+					: 0;
 
-            teamInRound = game.getTeams().get(teamInRoundIndex);
-        }
-    }
+			teamInRound = game.getTeams().get(teamInRoundIndex);
+		}
+	}
 
-    public boolean isThisFirstPlayersTurnInRound(Player playerInTurn) {
+	public boolean isThisFirstPlayersTurnInRound(Player playerInTurn) {
 
-        return playerInTurn != null && !playersTurnInRound.contains(playerInTurn);
-    }
+		return playerInTurn != null
+				&& !playersTurnInRound.contains(playerInTurn);
+	}
 
-    public void setPlayersTurnToWorld(int x, int y, Player player) {
-        if (game.getWorld() != null) {
-            game.getWorld().getCell(x, y).setPlayer(player);
-        }
-    }
+	public void setPlayersTurnToWorld(int x, int y, Player player) {
+		if (game.getWorld() != null) {
+			game.getWorld().getCell(x, y).setPlayer(player);
+		}
+	}
 
-    public void addPlayerToTurningPlayerList(Player player) {
-        playersTurnInRound.add(player);
-    }
+	public void addPlayerToTurningPlayerList(Player player) {
+		playersTurnInRound.add(player);
+	}
 
-    private void clearPlayersTurnedInRoundList() {
-        playersTurnInRound.clear();
-    }
+	private void clearPlayersTurnedInRoundList() {
+		playersTurnInRound.clear();
+	}
 
-    public Team getEmptiestTeam() {
-        Team emptiest = null;
-        int players = Integer.MAX_VALUE;
+	public Team getEmptiestTeam() {
+		Team emptiest = null;
+		int players = Integer.MAX_VALUE;
 
-        for (Team team : game.getTeams()) {
-            int used = team.getPlayers().size();
-            if (used < players) {
-                emptiest = team;
-                players = used;
-            }
-        }
+		for (Team team : game.getTeams()) {
+			int used = team.getPlayers().size();
+			if (used < players) {
+				emptiest = team;
+				players = used;
+			}
+		}
 
-        return emptiest;
-    }
+		return emptiest;
+	}
 
-    public Game getGame() {
-        return game;
-    }
+	public void setCharacterToPlayer() {
+		if (game.getPlayersCout() >= MIN_PLAYER) {
+			Random random = new Random();
+			Team randomTeam = game.getTeams().get(
+					random.nextInt((game.getTeams().size() - 1)));
+			randomTeam.getPlayers()
+					.get(random.nextInt((randomTeam.getPlayers().size() - 1)))
+					.setCharacter(Character.SHAMAN);
+		}
+	}
+
+	public Game getGame() {
+		return game;
+	}
 
 }
