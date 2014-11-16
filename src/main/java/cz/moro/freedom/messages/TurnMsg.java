@@ -1,65 +1,70 @@
 package cz.moro.freedom.messages;
 
+import javax.xml.registry.infomodel.PersonName;
+
 import org.json.JSONObject;
 
+import cz.moro.freedom.model.Character;
 import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Team;
 
-
 public class TurnMsg extends Message {
 
-    private int x;
-    private int y;
+	private int x;
+	private int y;
 
-    private Game game;
+	private Game game;
 
-    public TurnMsg() {
-        super(Message.Type.TURN);
-    }
+	public TurnMsg() {
+		super(Message.Type.TURN);
+	}
 
+	public int getX() {
+		return x;
+	}
 
-    public int getX() {
-        return x;
-    }
+	public void setX(int x) {
+		this.x = x;
+	}
 
-    public void setX(int x) {
-        this.x = x;
-    }
+	public int getY() {
+		return y;
+	}
 
-    public int getY() {
-        return y;
-    }
+	public void setY(int y) {
+		this.y = y;
+	}
 
-    public void setY(int y) {
-        this.y = y;
-    }
+	public Game getGame() {
+		return game;
+	}
 
-    public Game getGame() {
-        return game;
-    }
+	public void setGame(Game game) {
+		this.game = game;
+	}
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+	@Override
+	public JSONObject toJson() {
 
-    @Override
-    public JSONObject toJson() {
-        
-        JSONObject json = super.toJson();
-        
-        json.put("x", x);
-        json.put("y", y);
-        
-        Team team = player.getTeam();
-        
-        if (team != null) {
-            json.put("team", team.getId());
-        }
-        
-        if(game != null) {
-            json.put("game", game.getId());
-        }
+		JSONObject json = super.toJson();
 
-        return json;
-    }
+		json.put("x", x);
+		json.put("y", y);
+
+		Team team = player.getTeam();
+
+		if (team != null) {
+			json.put("team", team.getId());
+		}
+
+		if (game != null) {
+			json.put("game", game.getId());
+		}
+		
+		if(player.getCharacter() != null) {
+			json.put("characterMove", player.getCharacter().getCode());
+		}
+
+		return json;
+	}
 }

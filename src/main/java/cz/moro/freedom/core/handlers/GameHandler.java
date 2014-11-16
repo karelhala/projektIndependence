@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Set;
 
 import cz.moro.freedom.core.MainServer;
+import cz.moro.freedom.model.Cell;
 import cz.moro.freedom.model.Character;
 import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Player;
@@ -165,6 +166,24 @@ public class GameHandler {
 					.get(random.nextInt((randomTeam.getPlayers().size() - 1)))
 					.setCharacter(Character.SHAMAN);
 		}
+	}
+	
+	public boolean isWorldsCellOccupied(int x, int y) {
+		
+		return game.getWorld().getCell(x, y).getPlayer() != null;
+	}
+
+	public boolean isShamanMove(Player player,int x, int y){
+		
+		if (player.getCharacter() == Character.SHAMAN){
+			
+			Cell cell = game.getWorld().getCell(x, y);
+			
+			return cell.getPlayer() != null && (!cell.getPlayer().getTeam().equals(player.getTeam()));
+
+		}
+		
+		return false;
 	}
 
 	public Game getGame() {
