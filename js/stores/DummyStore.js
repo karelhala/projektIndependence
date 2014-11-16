@@ -2,8 +2,7 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 
 	var _games = [];
   var CHANGE_EVENT = "change";
-
-  var BrandValue = "nova hodnota dfgdfgdfgdfgdfg";
+	var CONNECT_TO_GAME = "CONNECT_TO_GAME";
 
   var DummyStore = ObjectAssign({}, EventEmitter.prototype, {
 
@@ -11,13 +10,16 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 		  return _games;
 	  },
 
-    getBrandText: function() {
-      return BrandValue;
-    },
-
     emitChange: function() {
       this.emit(CHANGE_EVENT);
     },
+
+	  emitConnectGame: function() {
+		  this.emit(CONNECT_TO_GAME);
+	  },
+	  addRedirectListener: function(callback){
+		  this.on(CONNECT_TO_GAME, callback);
+	  },
 
     /**
      * @param {function} callback
@@ -44,13 +46,17 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	  }
 	  else if (action == 'GAME_CREATED')
 	  {
-
+		  _games.push(payload.game);
+		  DummyStore.emitChange();
 	  }
-//    BrandValue = payload.text;
-//
-//
-//    //propagace zmen do vsech navazanych komponent
-//    DummyStore.emitChange();
+	  else if (action == CONNECT_TO_GAME)
+	  {
+		  game = payload.game;
+		  playerTeam = payload.playerTeam;
+		  team0 = payload.playerTeam;
+		  team1 = payload.playerTeam;
+			  DummyStore.emitConnectGame();
+	  }
   });
   return DummyStore;
 });

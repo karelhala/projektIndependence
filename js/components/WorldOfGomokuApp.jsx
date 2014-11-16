@@ -2,14 +2,16 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 
 	var PaneForGame = React.createClass({
 		handleClick: function(){
-			var mainSection = React.createFactory(MainSection);
-			React.unmountComponentAtNode(document.getElementById('js-app-container'));
-			React.render(
-				mainSection(),
-				document.getElementById('js-app-container'));
+			console.log("asdasda -> ", this);
+			var serverMessage = {
+				type: 'START_GAME',
+				game: this.gameId
+			};
+			webSocket.send(JSON.stringify(serverMessage));
 		},
+
 		render: function(){
-			console.log(this.props.text);
+			this.gameId = this.props.text;
 			return(
 				<div className="panel panel-default">
 					<div className="panel-heading" >{this.props.text ? this.props.text : "New Game"}</div>
@@ -56,15 +58,24 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 		componentDidMount: function() {
 			console.log("Header.componentDidMount");
 			DummyStore.addChangeListener(this._concatGames);
+			DummyStore.addRedirectListener(this._onRedirectToGame);
 		},
 
 		_concatGames: function(){
-			this.state.games = this.state.games.concat(DummyStore.getGames());
+			this.state.games = DummyStore.getGames();
 			this.setState(
 				{
 					games: this.state.games
 				}
 			);
+		},
+
+		_onRedirectToGame: function(){
+			var mainSection = React.createFactory(MainSection);
+			React.unmountComponentAtNode(document.getElementById('js-app-container'));
+			React.render(
+				mainSection(),
+				document.getElementById('js-app-container'));
 		},
 
 		render: function() {
