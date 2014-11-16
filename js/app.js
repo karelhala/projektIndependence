@@ -5,10 +5,11 @@ require.config({
 		"react": "static/react-with-addons",
 		"JSXTransformer": "static/JSXTransformer",
 		"easeljs": "static/easeljs-0.7.1.min",
-    	"bootstrap": "static/bootstrap.min",
+    "bootstrap": "static/bootstrap.min",
 		'react-router-shim': 'static/react-router-shim',
 		"objectassign": "static/object-assign",
-		"estedispatcher": "static/este-dispatcher"
+		"estedispatcher": "static/este-dispatcher",
+    "eventEmitter": "static/event-emitter"
 	},
 
 	jsx: {

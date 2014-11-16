@@ -5,7 +5,7 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 			// JSX code
 			return (
 					<div>
-						<Header Brand="World Of Gomoku"/>
+						<Header />
 						<div className="container">
 							<GamePlane />
 							<MainSection />
