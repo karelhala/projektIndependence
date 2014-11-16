@@ -11,6 +11,8 @@ import cz.moro.freedom.model.World;
 
 public class ScoreCounter {
 	private static final int LENGTH_OF_SEQUENCE = 3;
+	private static List<Score> totalScore; 
+
 	
 	public static class Score {
 
@@ -37,6 +39,10 @@ public class ScoreCounter {
 		public void setTeamScore(Long teamScore) {
 			this.teamScore = teamScore;
 		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
 		
 
 	}
@@ -44,10 +50,9 @@ public class ScoreCounter {
 	public static List<Score> getGameScore(Game game) {
 
 		World world = game.getWorld();
-		List<Score> totalScore = initScore(game.getTeams());
-
+		
+		totalScore = initScore(game.getTeams());
 		Long scoreold;
-		Long score;
 		Cell cell = new Cell();
 		Player player = null;
 
@@ -55,24 +60,9 @@ public class ScoreCounter {
 		for (int x = 0; x < world.getWidth(); x++) {
 			player = null;
 			scoreold = 0l;
-			score = 0l; // na zaciatku stlpca sa pocitadlo vynuluje
 			for (int y = 0; y < world.getHeight(); y++) {
 				cell = world.getCell(x, y);
-
-				if (player != null) { // kontrola zaciatku
-					score = getNewScore(player,cell.getPlayer(),scoreold);
-					if (score < scoreold) {	// zmenil sa znak 
-						if (scoreold >= LENGTH_OF_SEQUENCE){ // ak bola postupnost vacsia ako minimalna dlzka prirad body
-							for (Score teamScore : totalScore) {
-								if(teamScore.getId() == player.getTeam().getId()){
-									teamScore.setTeamScore(scoreold);
-								}
-							}
-						}
-					} else {
-						scoreold = score;
-					}
-				} 
+				scoreold = getScoreFor(player,scoreold,cell);			
 				player = cell.getPlayer();				
 			} // koniec y
 		} // koniec x
@@ -81,31 +71,74 @@ public class ScoreCounter {
 		for (int y = 0; y < world.getHeight(); y++) {
 			player = null;
 			scoreold = 0l;
-			score = 0l; // na zaciatku riadku sa pocitadlo vynuluje
 			for (int x = 0; x < world.getWidth(); x++) {
 				cell = world.getCell(x, y);
-
-				if (player != null) { // kontrola zaciatku
-					score = getNewScore(player,cell.getPlayer(),scoreold);
-					if (score < scoreold) {	// zmenil sa znak 
-						if (scoreold >= LENGTH_OF_SEQUENCE){ // ak bola postupnost vacsia ako minimalna dlzka prirad body
-							for (Score teamScore : totalScore) {
-								if(teamScore.getId() == player.getTeam().getId()){
-									teamScore.setTeamScore(scoreold);
-								}
-							}
-						}
-					} else {
-						scoreold = score;
-					}
-				} 
+				scoreold = getScoreFor(player,scoreold,cell);				
 				player = cell.getPlayer();
 			} // koniec x
 		} // koniec y
 
+		//diagony z lava do prava pod hlavnou
+		for (int y = 0; y <= world.getHeight()-LENGTH_OF_SEQUENCE; y++) {
+			player = null;
+			scoreold = 0l;
+			for (int x = 0; x < world.getWidth(); x++) {
+				cell = world.getCell(x, y+x);
+				scoreold = getScoreFor(player,scoreold,cell);	
+				player = cell.getPlayer();
+			}
+		}
+		//diagony z lava do prava nad hlavnou
+		for (int x = 0; x <= world.getWidth()-LENGTH_OF_SEQUENCE; x++) {
+			player = null;
+			scoreold = 0l;
+			for (int y = 0; y < world.getHeight(); y++) {
+				cell = world.getCell(x+y, y);
+				scoreold = getScoreFor(player,scoreold,cell);	
+				player = cell.getPlayer();
+			}
+		}
+		
+		//diagony z prava do lava pod hlavnou
+				for (int y = world.getHeight(); y >= 0+LENGTH_OF_SEQUENCE; y--) {
+					player = null;
+					scoreold = 0l;
+					for (int x = 0; x < world.getWidth() ; x++) {
+						cell = world.getCell(x, y-x);
+						scoreold = getScoreFor(player,scoreold,cell);	
+						player = cell.getPlayer();
+					}
+				}
+				//diagony z prava do lava nad hlavnou
+				for (int x = world.getWidth(); x >= 0+LENGTH_OF_SEQUENCE; x--) {
+					player = null;
+					scoreold = 0l;
+					for (int y =0; y > world.getHeight(); y++) {
+						cell = world.getCell(x-y, y);
+						scoreold = getScoreFor(player,scoreold,cell);	
+						player = cell.getPlayer();
+					}
+				}
+		
 		return totalScore;
 	}
 
+	private static Long getScoreFor(Player player, Long oldScore, Cell cell){
+		Long score = 0l;
+		if (player != null) { // kontrola zaciatku
+			 score = getNewScore(player,cell.getPlayer(),oldScore);
+			if (score < oldScore) {	// zmenil sa znak 
+				if (oldScore >= LENGTH_OF_SEQUENCE){ // ak bola postupnost vacsia ako minimalna dlzka prirad body
+					for (Score teamScore : totalScore) {
+						if(teamScore.getId() == player.getTeam().getId()){
+							teamScore.setTeamScore(oldScore);
+						}
+					}								
+					}
+				} 
+			} 
+		return score;
+	}
 	private static Long getNewScore(Player old, Player acct, Long scoreOld){			
 		return compareCell(old, acct, scoreOld);
 	}
