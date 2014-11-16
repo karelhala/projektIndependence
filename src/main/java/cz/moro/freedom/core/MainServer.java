@@ -170,4 +170,13 @@ public class MainServer {
         players.put(player.getId(), player);
     }
     
+    public static Player getPlayerById(String id) {
+        return players.get(id);
+    }
+    
+    public static GameHandler getGameHandlerById(Long id) {
+        return games.get(id);
+    }
+   
+    
 }
