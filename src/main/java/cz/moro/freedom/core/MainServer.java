@@ -64,19 +64,21 @@ public class MainServer {
         
         Message msg = JsonMessageParser.parse(message);
         
-        switch(msg.getType()) {
-            case START_GAME:
-                startGame((StartGameMsg) msg);
-                break;
-            case CHAT:
-                chat((ChatMsg)msg);
-                break;
-            case TURN:
-                turn((TurnMsg)msg);
-                break;
-            default:
-                break;
-            
+        if(msg != null) {
+            switch(msg.getType()) {
+                case START_GAME:
+                    startGame((StartGameMsg) msg);
+                    break;
+                case CHAT:
+                    chat((ChatMsg)msg);
+                    break;
+                case TURN:
+                    turn((TurnMsg)msg);
+                    break;
+                default:
+                    break;
+                
+            }
         }
     }
     
@@ -87,7 +89,8 @@ public class MainServer {
      */
     @OnClose
     public void onClose(Session session){
-        sessions.remove(session);
+        sessions.remove(session.getId());
+        players.remove(session.getId());
         logger.debug("Session " +session.getId()+" has ended");
     }
     
@@ -132,4 +135,5 @@ public class MainServer {
         sessions.put(player.getId(),session);
         players.put(player.getId(), player);
     }
+    
 }
