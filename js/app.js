@@ -10,6 +10,12 @@ require.config({
 
 	jsx: {
 		fileExtension: '.jsx'
+	},
+
+	shim: {
+		"easeljs": {
+			exports: "createjs"
+		}
 	}
 });
 

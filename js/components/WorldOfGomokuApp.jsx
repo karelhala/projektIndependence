@@ -1,4 +1,4 @@
-define(['react', 'jsx!components/Header'], function(React, Header) {
+define(['react', 'jsx!components/Header', 'jsx!components/GamePlane'], function(React, Header, GamePlane) {
 
 	/**
 	 *
@@ -7,7 +7,11 @@ define(['react', 'jsx!components/Header'], function(React, Header) {
 
 		render: function() {
 			// JSX code
-			return <Header />;
+			return (<div className="container">
+						<Header />
+						<GamePlane />
+					</div>
+					);
 		}
 	});
 
