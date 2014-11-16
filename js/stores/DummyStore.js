@@ -66,17 +66,16 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	  }
 	  else if (action == 'GAME_CREATED')
 	  {
-		  _games.push(payload.game);
+		  _games.push(payload);
 		  DummyStore.emitChange();
 	  }
 	  else if (action == CONNECT_TO_GAME)
 	  {
-		  game = payload.game;
-		  playerTeam = payload.playerTeam;
-		  team0 = payload.playerTeam;
-		  team1 = payload.playerTeam;
-		  console.log(userId, "      ", payload.player);
 		  if (userId ==  payload.player){
+			  game = payload.game;
+			  playerTeam = payload.playerTeam;
+			  team0 = payload.playerTeam;
+			  team1 = payload.playerTeam;
 			  DummyStore.emitConnectGame();
 	  		}
 	  }
