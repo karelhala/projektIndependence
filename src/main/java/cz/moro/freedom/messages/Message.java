@@ -18,7 +18,8 @@ public class Message {
         TURN,
         CHAT, 
         CONNECT,
-        CONNECT_TO_GAME;
+        CONNECT_TO_GAME,
+        SCORE;
         
         public static Type fromString(String name) {
             for(Type type : values()){

@@ -20,6 +20,7 @@ import cz.moro.freedom.core.handlers.GameHandler;
 import cz.moro.freedom.messages.ChatMsg;
 import cz.moro.freedom.messages.ConnectToGame;
 import cz.moro.freedom.messages.EndMsg;
+import cz.moro.freedom.messages.GameScoreMsg;
 import cz.moro.freedom.messages.InitialConnectMsg;
 import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.StartGameMsg;
@@ -151,6 +152,14 @@ public class MainServer {
     
     public void sendGameScoreMessage(Game game, List<Score> gameScore) {
         
+        GameScoreMsg gameScoreMsg = new GameScoreMsg();
+        
+        gameScoreMsg.setTeams(game.getTeams());
+        gameScoreMsg.setScores(gameScore);
+        
+        for (Team team : game.getTeams()) {
+            sendJson(team.getPlayers(), gameScoreMsg.toJson());
+        }
     }
         
     
