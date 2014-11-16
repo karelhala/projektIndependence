@@ -160,6 +160,7 @@ public class MainServer {
                 sendJson(players.values(), msg.toJson());
                 break;
             case GAME:
+                sendJson(msg.getPlayer().getGame(), msg.toJson());
                 break;
             case TEAM:
                 sendJson(msg.getPlayer().getTeam().getPlayers(), msg.toJson());
@@ -207,7 +208,7 @@ public class MainServer {
         JSONObject json = new JSONObject();
         json.put("type", "GAME_CREATED");
         game.toJson(json);        
-        sendJson(session, json);
+        sendJson(players.values(), json);
     }
     
     private void initPlayer(Session session) {

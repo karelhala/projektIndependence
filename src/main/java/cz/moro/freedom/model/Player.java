@@ -7,6 +7,7 @@ public class Player {
     private final String id;
     private String name;
     private Team team;
+    private Game game;
     
     public Player(String id) {
         this.id = id;        
@@ -30,6 +31,14 @@ public class Player {
     
     public void setTeam(Team team) {    
         this.team = team;
+    }
+    
+    public Game getGame() {
+        return game;
+    }
+    
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     @Override

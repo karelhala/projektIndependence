@@ -34,6 +34,7 @@ public class GameHandler {
         }
 
         player.setTeam(playerTeam);
+        player.setGame(game);
 
         for (Team team : game.getTeams()) {
 
