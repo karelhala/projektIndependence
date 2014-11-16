@@ -79,7 +79,7 @@ public class ScoreCounter {
 		} // koniec y
 
 		//diagony z lava do prava pod hlavnou
-		for (int y = 0; y <= world.getHeight()-LENGTH_OF_SEQUENCE; y++) {
+		for (int y = 0; y < world.getHeight()-LENGTH_OF_SEQUENCE; y++) {
 			player = null;
 			scoreold = 0l;
 			for (int x = 0; x < world.getWidth(); x++) {
@@ -89,7 +89,7 @@ public class ScoreCounter {
 			}
 		}
 		//diagony z lava do prava nad hlavnou
-		for (int x = 0; x <= world.getWidth()-LENGTH_OF_SEQUENCE; x++) {
+		for (int x = 0; x < world.getWidth()-LENGTH_OF_SEQUENCE; x++) {
 			player = null;
 			scoreold = 0l;
 			for (int y = 0; y < world.getHeight(); y++) {
@@ -100,7 +100,7 @@ public class ScoreCounter {
 		}
 		
 		//diagony z prava do lava pod hlavnou
-				for (int y = world.getHeight(); y >= 0+LENGTH_OF_SEQUENCE; y--) {
+				for (int y = world.getHeight(); y > 0+LENGTH_OF_SEQUENCE; y--) {
 					player = null;
 					scoreold = 0l;
 					for (int x = 0; x < world.getWidth() ; x++) {
@@ -110,7 +110,7 @@ public class ScoreCounter {
 					}
 				}
 				//diagony z prava do lava nad hlavnou
-				for (int x = world.getWidth(); x >= 0+LENGTH_OF_SEQUENCE; x--) {
+				for (int x = world.getWidth(); x > 0+LENGTH_OF_SEQUENCE; x--) {
 					player = null;
 					scoreold = 0l;
 					for (int y =0; y > world.getHeight(); y++) {
