@@ -1,6 +1,12 @@
 define(['react', 'react-boostrap'], function(React, Bootstrap) {
 
-  var Panel = Bootstrap.Panel;
+  var Navbar = Bootstrap.Navbar;
+
+  var Nav = Bootstrap.Nav;
+  var NavItem = Bootstrap.NavItem;
+
+  var DropdownButton = Bootstrap.DropdownButton;
+  var MenuItem = Bootstrap.MenuItem;
 
 	/**
 	 *
@@ -8,8 +14,9 @@ define(['react', 'react-boostrap'], function(React, Bootstrap) {
 	return React.createClass({
 
 		render: function() {
-			// JSX code
-			return <Panel header="Panel heading without title"/>;
+			return (
+        <Navbar fixedTop brand="Toto je brand">
+        </Navbar>);
 		}
 	});
 
