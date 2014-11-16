@@ -1,6 +1,8 @@
 package cz.moro.freedom.core.handlers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cz.moro.freedom.core.MainServer;
 import cz.moro.freedom.model.Game;
@@ -20,6 +22,8 @@ public class GameHandler {
     private int teamInRoundIndex = 0;
 
     private Thread gameThread;
+
+    private Set<Player> playersTurnInRound = new HashSet<>();
 
     public GameHandler(Game game) {
         super();
@@ -80,6 +84,7 @@ public class GameHandler {
 
                             mainServer.sendEndRoundMessage(teamInRound);
                             changeTeamInRound();
+                            clearPlayersTurnedInRoundList();
 
                             List<Score> gameScore = ScoreCounter.getGameScore(game);
 
@@ -106,19 +111,32 @@ public class GameHandler {
             teamInRound = game.getTeams().get(teamInRoundIndex);
         }
     }
-    
+
+    public boolean isThisFirstPlayersTurnInRound(Player playerInTurn) {
+
+        return playerInTurn != null && !playersTurnInRound.contains(playerInTurn);
+    }
+
+    public void addPlayerToTurningPlayerList(Player player) {
+        playersTurnInRound.add(player);
+    }
+
+    private void clearPlayersTurnedInRoundList() {
+        playersTurnInRound.clear();
+    }
+
     public Team getEmptiestTeam() {
         Team emptiest = null;
         int players = Integer.MAX_VALUE;
-        
-        for(Team team : game.getTeams()) {
-            int used = team.getPlayers().size() ;
-            if(used < players) {
+
+        for (Team team : game.getTeams()) {
+            int used = team.getPlayers().size();
+            if (used < players) {
                 emptiest = team;
                 players = used;
             }
         }
-        
+
         return emptiest;
     }
 
