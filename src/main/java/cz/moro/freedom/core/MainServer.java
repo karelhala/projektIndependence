@@ -27,7 +27,6 @@ import cz.moro.freedom.messages.StartGameMsg;
 import cz.moro.freedom.messages.StartMsg;
 import cz.moro.freedom.messages.TurnMsg;
 import cz.moro.freedom.model.Cell;
-import cz.moro.freedom.model.Character;
 import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Player;
 import cz.moro.freedom.model.Team;
@@ -108,7 +107,11 @@ public class MainServer {
 	@OnClose
 	public void onClose(Session session) {
 		sessions.remove(session.getId());
+		Player player = players.get(session.getId());
+		GameHandler handler = games.get(player.getGame().getId());
+		handler.removePlayer(player);;
 		players.remove(session.getId());
+		
 	}
 
 	private void startGame(StartGameMsg msg) {

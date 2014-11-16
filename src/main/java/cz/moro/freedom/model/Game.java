@@ -53,6 +53,7 @@ public class Game {
 
     public void toJson(JSONObject json) {
         json.put("game", id);
+        json.put("players", getPlayersCout());
         int i=0;
         for(Team team : teams) {
             json.put("team"+i, team.getId());

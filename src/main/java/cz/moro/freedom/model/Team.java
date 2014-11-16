@@ -20,6 +20,10 @@ public class Team {
     public void addPlayer(Player player) {
         players.add(player);
     }
+    
+    public void removePlayer(Player player) {
+        players.remove(player);
+    }
 
     public List<Player> getPlayers() {
         return players;
@@ -61,5 +65,6 @@ public class Team {
 
         return true;
     }
+
 
 }

@@ -50,6 +50,15 @@ public class GameHandler {
 			}
 		}
 	}
+	
+	public void removePlayer(Player player) {
+       for (Team team : game.getTeams()) {
+
+            if (team.equals(player.getTeam())) {
+                team.removePlayer(player);
+            }
+        }
+	}
 
 	public boolean isThisTeamInRound(Team team) {
 
