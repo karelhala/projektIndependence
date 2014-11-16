@@ -18,8 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import cz.moro.freedom.core.handlers.GameHandler;
 import cz.moro.freedom.messages.ChatMsg;
-import cz.moro.freedom.messages.ConnectMsg;
+import cz.moro.freedom.messages.ConnectToGame;
 import cz.moro.freedom.messages.EndMsg;
+import cz.moro.freedom.messages.InitialConnectMsg;
 import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.StartGameMsg;
 import cz.moro.freedom.messages.StartMsg;
@@ -51,7 +52,7 @@ public class MainServer {
         
         initPlayer(session);
                 
-        ConnectMsg msg = new ConnectMsg();
+        InitialConnectMsg msg = new InitialConnectMsg();
         msg.setPlayer(players.get(session.getId()));
         sendJson(session, msg.toJson());
     }
@@ -108,27 +109,28 @@ public class MainServer {
     private void startGame(StartGameMsg msg) {
         
         GameHandler gameHandler;
+        Game game = null;
         
         if(msg.getGame() == null) {
 
-            Game game = new Game();
+            game = new Game();
             gameHandler = new GameHandler(game);
             
             games.put(game.getId(), gameHandler);
             
             Session session = sessions.get(msg.getPlayer().getId());
-            sendCreateGameMsg(session, game);
+            sendConnectToGameMsg(session, game);
             
         } else {
-            gameHandler = games.get(msg.getGame().getId());
+            game = msg.getGame();
+            gameHandler = games.get(game.getId());
         }
         
-        Team team = msg.getTeam();
-        if(team == null) {
-            team = gameHandler.getGame().getTeams().get(0);
-        }
-        
+        Team team = gameHandler.getEmptiestTeam();
         gameHandler.addPlayer(team, msg.getPlayer());
+        
+        ConnectToGame con = new ConnectToGame(msg.getPlayer(), game);
+        sendJson(game, con.toJson());
         
         if(gameHandler.isGameReady()) {
             gameHandler.startGame(this);
@@ -175,6 +177,12 @@ public class MainServer {
         }
     }
          
+    private void sendJson(Game game, JSONObject json) {
+        for(Team team : game.getTeams()) {
+            sendJson(team.getPlayers(), json);
+        }
+    }
+    
     private void sendJson(Collection<Player> players, JSONObject json) {
         for(Player player : players) {
             Session session = sessions.get(player.getId());
@@ -194,17 +202,11 @@ public class MainServer {
         }
     }
 
-    private void sendCreateGameMsg(Session session, Game game) {
+    private void sendConnectToGameMsg(Session session, Game game) {
 
         JSONObject json = new JSONObject();
         json.put("type", "GAME_CREATED");
-        json.put("game", game.getId());
-        int i=1;
-        for(Team team : game.getTeams()) {
-            json.put("team"+i, team.getId());
-            i++;
-        }
-        
+        game.toJson(json);        
         sendJson(session, json);
     }
     

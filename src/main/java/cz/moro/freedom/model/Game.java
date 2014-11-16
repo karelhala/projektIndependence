@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.json.JSONObject;
+
 
 public class Game {
     
@@ -41,6 +43,14 @@ public class Game {
         return id;
     }
 
+    public void toJson(JSONObject json) {
+        json.put("game", id);
+        int i=0;
+        for(Team team : teams) {
+            json.put("team"+i, team.getId());
+            i++;
+        }
+    }
 
     @Override
     public int hashCode() {

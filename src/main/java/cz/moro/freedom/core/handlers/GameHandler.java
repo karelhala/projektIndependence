@@ -106,6 +106,21 @@ public class GameHandler {
             teamInRound = game.getTeams().get(teamInRoundIndex);
         }
     }
+    
+    public Team getEmptiestTeam() {
+        Team emptiest = null;
+        int players = Integer.MAX_VALUE;
+        
+        for(Team team : game.getTeams()) {
+            int used = team.getPlayers().size() ;
+            if(used < players) {
+                emptiest = team;
+                players = used;
+            }
+        }
+        
+        return emptiest;
+    }
 
     public Game getGame() {
         return game;

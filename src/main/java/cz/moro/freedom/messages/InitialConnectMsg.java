@@ -9,9 +9,9 @@ import cz.moro.freedom.model.Game;
 import cz.moro.freedom.model.Team;
 
 
-public class ConnectMsg extends Message {
+public class InitialConnectMsg extends Message {
 
-    public ConnectMsg() {
+    public InitialConnectMsg() {
         super(Message.Type.CONNECT);
     }
     
