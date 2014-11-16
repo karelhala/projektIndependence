@@ -8,8 +8,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Game {
     
     private static AtomicLong idGenerator = new AtomicLong();
+    private static final int TEAMS_COUNT = 2;
 
-    private Long id = idGenerator.incrementAndGet();
+    private final Long id = idGenerator.incrementAndGet();
 
     private final World world;
     private final List<Team> teams;
@@ -17,7 +18,10 @@ public class Game {
     public Game() {
 
         this.world = new World();
-        this.teams = new ArrayList<>(2);
+        this.teams = new ArrayList<>(TEAMS_COUNT);
+        for(int i=0; i < TEAMS_COUNT; i++) {
+            teams.add(new Team());
+        }
     }
 
 
@@ -33,11 +37,6 @@ public class Game {
 
     public Long getId() {
         return id;
-    }
-
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 

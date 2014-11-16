@@ -2,11 +2,14 @@ package cz.moro.freedom.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 public class Team {
+    
+    private static AtomicLong idGenerator = new AtomicLong();
 
-    private Long id;
+    private Long id = idGenerator.incrementAndGet();
 
     private List<Player> players;
 
@@ -27,10 +30,6 @@ public class Team {
         return id;
     }
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public int hashCode() {

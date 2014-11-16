@@ -116,7 +116,12 @@ public class MainServer {
             gameHandler = games.get(msg.getGame().getId());
         }
         
-        gameHandler.addPlayer(msg.getTeam(), msg.getPlayer());
+        Team team = msg.getTeam();
+        if(team == null) {
+            team = gameHandler.getGame().getTeams().get(0);
+        }
+        
+        gameHandler.addPlayer(team, msg.getPlayer());
         
         if(gameHandler.isGameReady()) {
             gameHandler.startGame(this);
@@ -192,5 +197,13 @@ public class MainServer {
         return games.get(id);
     }
    
+    public static Game getGameById(Long id) {
+        GameHandler handler = getGameHandlerById(id);
+        if(handler != null) {
+            return handler.getGame();
+        } else {
+            return null;
+        }
+    }
     
 }

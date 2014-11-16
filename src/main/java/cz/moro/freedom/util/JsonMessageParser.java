@@ -5,12 +5,15 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.moro.freedom.core.MainServer;
 import cz.moro.freedom.messages.ChatMsg;
 import cz.moro.freedom.messages.ChatMsg.Group;
 import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.Message.Type;
 import cz.moro.freedom.messages.StartGameMsg;
 import cz.moro.freedom.messages.TurnMsg;
+import cz.moro.freedom.model.Game;
+import cz.moro.freedom.model.Team;
 
 
 public class JsonMessageParser {
@@ -63,6 +66,18 @@ public class JsonMessageParser {
     
     private static StartGameMsg parseStartGameMsg(JSONObject json) {
         StartGameMsg msg = new StartGameMsg();
+        
+        Game game = MainServer.getGameById(json.getLong("game"));
+        msg.setGame(game);
+        
+        if(game != null) {
+            Long id = json.getLong("team");
+            for(Team team : game.getTeams()) {
+                if(team.getId().equals(id)) {
+                    msg.setTeam(team);
+                }
+            }
+        }
         
         return msg;
     }
