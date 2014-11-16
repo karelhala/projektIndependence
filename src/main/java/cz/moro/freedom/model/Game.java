@@ -2,11 +2,14 @@ package cz.moro.freedom.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 public class Game {
+    
+    private static AtomicLong idGenerator = new AtomicLong();
 
-    private Long id;
+    private Long id = idGenerator.incrementAndGet();
 
     private final World world;
     private final List<Team> teams;
