@@ -83,9 +83,11 @@ public class ScoreCounter {
 			player = null;
 			scoreold = 0l;
 			for (int x = 0; x < world.getWidth(); x++) {
+				int newy = y+x;
 				cell = world.getCell(x, y+x);
 				scoreold = getScoreFor(player,scoreold,cell);	
 				player = cell.getPlayer();
+				if (newy == world.getHeight()) break;
 			}
 		}
 		//diagony z lava do prava nad hlavnou
