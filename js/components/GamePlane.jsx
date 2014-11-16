@@ -64,11 +64,11 @@ define([
 				this.renderer.renderPlayGround(this.playground);
 			},
 
-			render: function() {
-				return (
-					<canvas widht="500" height="300" id="canvas"></canvas>
-					);
-			}
+	render: function() {
+		return (
+				<canvas widht="500" height="300" id="canvas"></canvas>
+				);
+	}
 
 		});
 
