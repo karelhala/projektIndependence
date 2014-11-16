@@ -8,16 +8,17 @@ nav.navbar a.navbar-brand:hover {
   color: white;
 }
 .panel-chat{
+    position: fixed;
     float: right;
     width: 25%;
-    padding-bottom: 5px;
+    margin-left: 750px;
+    height: 400px;
 }
-.panel-game{
-    float: left;
-    width: 75%;
-    height: 100%;
+.at-bottom{
+    background-color: #ccc; position: absolute; bottom: 0;
+    margin-bottom: 20px;
+    margin-right: 8px;
 }
-
 div.my-message{
     font-weight: bold;
 }

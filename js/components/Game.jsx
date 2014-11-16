@@ -30,7 +30,7 @@ define(['react', 'bootstrap'], function(React) {
 				return null;
 			}
 			return (
-				<div class='messages'>
+				<div className='messages'>
 					<h2> Conversation: </h2>
               { this.props.textMessages.map(renderMessage)}
 				</div>
@@ -45,6 +45,9 @@ define(['react', 'bootstrap'], function(React) {
 			};
 		},
 		appendNewMessage: function(message){
+			if (this.state.textMessages.length == 10){
+				this.state.textMessages.shift();
+			}
 			this.state.textMessages.push(message);
 			this.setState(
 				{
@@ -75,8 +78,14 @@ define(['react', 'bootstrap'], function(React) {
 			}
 			this.setState({chatMessage: null});
 		},
+		pressedKey: function(e, asd, ww){
+			if (e.keyCode == 13){
+				this.handleClick();
+			}
+		},
 		render: function() {
 			return (
+
 				<div className="panel panel-default panel-chat">
 					<div className="panel-heading" >Chat</div>
 					<div className="panel-body" >
@@ -84,9 +93,10 @@ define(['react', 'bootstrap'], function(React) {
 							<div className="input-group">
 								<MessageList textMessages={this.state.textMessages} />
 							</div>
-							<div className="input-group">
+							<div className="input-group at-bottom" >
 								<input
 									type="text"
+									onKeyDown={this.pressedKey}
 									className="form-control"
 									name="chatInput"
 									onChange={this.handleChatMessageChange}
@@ -95,7 +105,7 @@ define(['react', 'bootstrap'], function(React) {
 								/>
 
 								<span className="input-group-btn">
-									<button className="btn btn-default" type="button"  onClick={this.handleClick} role="form" action="#">Go!</button>
+									<button className="btn btn-default" type="button"  onClick={this.handleClick} role="form" action="#">Send</button>
 								</span>
 							</div>
 						</div>

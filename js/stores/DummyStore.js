@@ -39,7 +39,5 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
     //propagace zmen do vsech navazanych komponent
     DummyStore.emitChange();
   });
-
-
   return DummyStore;
 });

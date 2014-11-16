@@ -32,9 +32,6 @@ var GamePlane = React.createClass({
 			console.log(data);
 			console.log(type);
 
-			if (type == "CONNECT"){
-				userId = data.player;
-			}
 			if(type == "TURN") {
 				_that.makeTurn(data.x, data.y);
 			}
