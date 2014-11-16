@@ -15,11 +15,13 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.moro.freedom.core.handlers.GameHandler;
 import cz.moro.freedom.messages.ChatMsg;
 import cz.moro.freedom.messages.Message;
 import cz.moro.freedom.messages.StartGameMsg;
 import cz.moro.freedom.messages.TurnMsg;
 import cz.moro.freedom.model.Player;
+import cz.moro.freedom.model.Team;
 import cz.moro.freedom.util.JsonMessageParser;
 
 @ServerEndpoint("/server")
@@ -29,6 +31,7 @@ public class MainServer {
     
     private static Map<String, Session> sessions = new ConcurrentHashMap<>();
     private static Map<String, Player> players = new ConcurrentHashMap<>();
+    private static Map<Long, GameHandler> games = new ConcurrentHashMap<>();
     
     /**
      * @OnOpen allows us to intercept the creation of a new session.
@@ -97,6 +100,25 @@ public class MainServer {
     }
     
     private void startGame(StartGameMsg msg) {
+        
+        GameHandler gameHandler = games.get(msg.getGame().getId());
+        
+        gameHandler.addPlayer(msg.getTeam(), msg.getPlayer());
+        
+        if(gameHandler.isGameReady()) {
+            gameHandler.startGame(this);
+        }
+     }
+    
+    public void sendStartRoundMessage(Team team) {
+        
+    }
+    
+    public void sendEndRoundMessage(Team team) {
+        
+    }
+    
+    public void sendGameScoreMessage(Player player) {
         
     }
     
