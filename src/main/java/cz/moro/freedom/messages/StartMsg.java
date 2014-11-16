@@ -2,6 +2,7 @@ package cz.moro.freedom.messages;
 
 import org.json.JSONObject;
 
+import cz.moro.freedom.core.handlers.GameHandler;
 import cz.moro.freedom.model.Team;
 
 
@@ -26,6 +27,7 @@ public class StartMsg extends Message {
     public JSONObject toJson() {
         JSONObject json = super.toJson();
         json.put("team", team.getId());
+        json.put("time", GameHandler.ROUND_TIME_MILIS);
         
         return json;
     }
