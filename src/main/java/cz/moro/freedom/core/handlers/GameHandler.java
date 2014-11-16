@@ -88,12 +88,12 @@ public class GameHandler {
 
                             try {
                                 List<Score> gameScore = ScoreCounter.getGameScore(game);
-    
+
                                 mainServer.sendGameScoreMessage(game, gameScore);
                             } catch(Exception e) {
                                 e.printStackTrace();
                             }
-                            
+
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -119,6 +119,12 @@ public class GameHandler {
     public boolean isThisFirstPlayersTurnInRound(Player playerInTurn) {
 
         return playerInTurn != null && !playersTurnInRound.contains(playerInTurn);
+    }
+
+    public void setPlayersTurnToWorld(int x, int y, Player player) {
+        if (game.getWorld() != null) {
+            game.getWorld().getCell(x, y).setPlayer(player);
+        }
     }
 
     public void addPlayerToTurningPlayerList(Player player) {
