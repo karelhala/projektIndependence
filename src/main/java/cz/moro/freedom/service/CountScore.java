@@ -49,26 +49,22 @@ public class CountScore {
 		Long scoreold;
 		Long score;
 		Cell cell = new Cell();
-		Player playerAcct = null;
-		Player playerOld = null;
+		Player player = null;
 
 		// prejdem hracie pole z hora dole
 		for (int x = 0; x < world.getWidth(); x++) {
-			playerAcct = null;
-			playerOld = null;
+			player = null;
 			scoreold = 0l;
 			score = 0l; // na zaciatku stlpca sa pocitadlo vynuluje
 			for (int y = 0; y < world.getHeight(); y++) {
 				cell = world.getCell(x, y);
 
-				if (playerOld != null) { // kontrola zaciatku
-					playerOld = playerAcct;
-					playerAcct = cell.getPlayer();
-					score = compareCell(playerOld, playerAcct, scoreold);
+				if (player != null) { // kontrola zaciatku
+					score = getNewScore(player,cell.getPlayer(),scoreold);
 					if (score < scoreold) {	// zmenil sa znak 
 						if (scoreold >= LENGTH_OF_SEQUENCE){ // ak bola postupnost vacsia ako minimalna dlzka prirad body
 							for (Score teamScore : totalScore) {
-								if(teamScore.getId() == playerOld.getTeam().getId()){
+								if(teamScore.getId() == player.getTeam().getId()){
 									teamScore.setTeamScore(scoreold);
 								}
 							}
@@ -76,18 +72,46 @@ public class CountScore {
 					} else {
 						scoreold = score;
 					}
-				} else {
-					playerAcct = cell.getPlayer();
-				}
-
+				} 
+				player = cell.getPlayer();				
 			} // koniec y
 		} // koniec x
+		
+		//prejde hracie pole y lava do prava
+		for (int y = 0; y < world.getHeight(); y++) {
+			player = null;
+			scoreold = 0l;
+			score = 0l; // na zaciatku riadku sa pocitadlo vynuluje
+			for (int x = 0; x < world.getWidth(); x++) {
+				cell = world.getCell(x, y);
+
+				if (player != null) { // kontrola zaciatku
+					score = getNewScore(player,cell.getPlayer(),scoreold);
+					if (score < scoreold) {	// zmenil sa znak 
+						if (scoreold >= LENGTH_OF_SEQUENCE){ // ak bola postupnost vacsia ako minimalna dlzka prirad body
+							for (Score teamScore : totalScore) {
+								if(teamScore.getId() == player.getTeam().getId()){
+									teamScore.setTeamScore(scoreold);
+								}
+							}
+						}
+					} else {
+						scoreold = score;
+					}
+				} 
+				player = cell.getPlayer();
+			} // koniec x
+		} // koniec y
 
 		return totalScore;
 	}
 
+	private static Long getNewScore(Player old, Player acct, Long scoreOld){			
+		return compareCell(old, acct, scoreOld);
+	}
+	
 	private static List<Score> initScore(List<Team> teams) {
-		List<Score> result = new ArrayList<Score>();
+		List<Score> result = new ArrayList<>();
 
 		for (Team team : teams) {
 			Score score = new Score(team.getId(), 0l);
