@@ -84,7 +84,7 @@ public class ScoreCounter {
 			scoreold = 0l;
 			for (int x = 0; x < world.getWidth(); x++) {
 				int newy = y+x;
-				if (newy >= world.getHeight()) {
+				if (newy >= world.getHeight() || newy >= x) {
 					continue;				
 				}
 				cell = world.getCell(x, y+x);
@@ -98,7 +98,7 @@ public class ScoreCounter {
 			scoreold = 0l;
 			for (int y = 0; y < world.getHeight(); y++) {
 				int newx = x+y;
-				if (newx >=world.getWidth()){
+				if (newx >=world.getWidth() || newx >=y){
 					continue;
 				}
 				cell = world.getCell(x+y, y);
@@ -113,7 +113,7 @@ public class ScoreCounter {
 					scoreold = 0l;
 					for (int x = 0; x < world.getWidth() ; x++) {
 						int newy = y-x;
-						if (newy < 0){
+						if (newy < 0 || x >= y ){
 							continue;
 						}
 						cell = world.getCell(x, y-x);
@@ -127,7 +127,7 @@ public class ScoreCounter {
 					scoreold = 0l;
 					for (int y =0; y > world.getHeight(); y++) {
 						int newx = x-y;
-						if (newx < 0 ){
+						if (newx < 0 || y >= x){
 							continue;
 						}
 						cell = world.getCell(x-y, y);
