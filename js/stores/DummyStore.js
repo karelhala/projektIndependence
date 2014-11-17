@@ -142,7 +142,9 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
 	      appendNewChatMessage(payload);
 	      DummyStore.emitNewMessage();
 	    } else if(action == SCORE) {
-	    	score = "tady bude score";
+	    	var scores = payload.scores;
+	    	score = "Score: " + scores[0].teamScore + " : " + scores[1].teamScore;
+
 	    	DummyStore.emitScoreChange();
 	    }
   });

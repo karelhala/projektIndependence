@@ -2,7 +2,7 @@ define(['dispatcher/AppDispatcher', 'constants/ChatConstants'], function(Dispatc
 
   return {
     createMessage: function(text) {
-      webSocket.send("{type:'CHAT',player:" + userId + ", msg: '" + text + "',to:'ALL'}");
+      webSocket.send("{type:'CHAT',player:" + userId + ", msg: '" + text + "',to:'GAME'}");
     },
 
     recieveNewMessage: function(to, from, text) {

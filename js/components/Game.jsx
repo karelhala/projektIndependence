@@ -72,7 +72,7 @@ define(['react'], function(React) {
 				var chatMessage = {
 					type: 'CHAT',
 					msg: this.state.chatMessage,
-					to: 'ALL'
+					to: 'GAME'
 				};
 				webSocket.send(JSON.stringify(chatMessage));
 			}

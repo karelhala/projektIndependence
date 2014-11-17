@@ -34,7 +34,7 @@ define([], function() {
 		return occupied;
 	}
 
-	PlayGround.prototype.clear = function (x, y) {console.log("zdar");
+	PlayGround.prototype.clear = function (x, y) {
 		this.CIRCLES = this.CIRCLES.filter(function(elm) {
 			return ((elm.x != x) || (elm.y != y));
 		})
