@@ -116,6 +116,7 @@ public class GameHandler {
 				}
 			});
 
+            clearPlayersTurnedInRoundList();
 			gameThread.start();
 		}
 	}
