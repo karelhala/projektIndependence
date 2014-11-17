@@ -51,8 +51,10 @@ define([
 				var x = DummyStore.getTurnX();
 				var y = DummyStore.getTurnY();
 				if (DummyStore.getTurnTeamNumber() != playerTeam) {
+					console.log("cross");
 					this.playground.addCross(new Cross(x, y));
 				} else if (DummyStore.getTurnTeamNumber() == playerTeam) {
+					console.log("circle");
 					this.playground.addCircle(new Circle(x, y));
 				}
 				this.renderer.update();

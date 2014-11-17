@@ -31,14 +31,24 @@ define([], function() {
 				occupied = true;
 			}
 		});*/
-
 		return occupied;
+	}
+
+	PlayGround.prototype.clear = function (x, y) {console.log("zdar");
+		this.CIRCLES = this.CIRCLES.filter(function(elm) {
+			return ((elm.x != x) || (elm.y != y));
+		})
+
+		this.CROSSES = this.CROSSES.filter(function(elm) {
+			return ((elm.x != x) || (elm.y != y));
+		})
 	}
 
 	PlayGround.prototype.addCircle = function (circle) {
 		if(circle.x >= this.width || circle.y >= this.height) return;
 		if(this.occupied(circle.x, circle.y)) return;
 
+		this.clear(circle.x, circle.y);
 		this.CIRCLES.push(circle);
 		this.registerLastMove(circle);
 	}
@@ -46,6 +56,7 @@ define([], function() {
 		if(cross.x >= this.width || cross.y >= this.height) return;
 		if(this.occupied(cross.x, cross.y)) return;
 
+		this.clear(cross.x, cross.y);
 		this.CROSSES.push(cross);
 		this.registerLastMove(cross);
 	}

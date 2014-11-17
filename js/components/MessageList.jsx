@@ -26,7 +26,7 @@ define(['react', 'stores/DummyStore', 'jsx!components/Message'], function(React,
       return (
         <div className="chat-window">
           {
-            allMessages.map(function (msg) {console.log("!!!", msg);
+            allMessages.map(function (msg) {
               return <Message userId={msg.player} text={msg.msg} type={msg.to}/>;
             })
           }
