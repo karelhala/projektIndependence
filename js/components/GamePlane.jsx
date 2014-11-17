@@ -50,7 +50,6 @@ define([
 			makeTurn: function() {
 				var x = DummyStore.getTurnX();
 				var y = DummyStore.getTurnY();
-console.log(x, y, DummyStore.getTurnTeamNumber());
 				if (DummyStore.getTurnTeamNumber() != playerTeam) {
 					this.playground.addCross(new Cross(x, y));
 				} else if (DummyStore.getTurnTeamNumber() == playerTeam) {

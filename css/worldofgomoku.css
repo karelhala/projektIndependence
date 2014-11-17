@@ -22,3 +22,13 @@ nav.navbar a.navbar-brand:hover {
 div.my-message{
     font-weight: bold;
 }
+
+.chat-window{
+    height: 250px;  
+    overflow-y: scroll;  
+    width: 420px;
+}
+
+#game-score{
+    text-align: right;
+}

@@ -6,10 +6,12 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
 	var START = "START";
 	var END = "END";
 	var TURN = "TURN";
+	var SCORE = "SCORE";
 	var turnTeamNumber;
 	var turnTime;
 	var turnX;
 	var turnY;
+	var score;
   var chatMessages = [];
 
   function appendNewChatMessage(newMessage) {
@@ -33,6 +35,10 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
 	},
       getTurnTime: function() {
       	return turnTime;
+      },
+
+      getScore: function() {
+      	return score;
       },
 
     emitChange: function() {
@@ -62,6 +68,14 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
 	  	this.on(START, callback);
 	  },
 
+	  addScoreListener: function(callback) {
+	  	this.on(SCORE, callback);
+	  },
+
+	  emitScoreChange: function() {
+	  	this.emit(SCORE);
+	  },
+
     /**
      * @param {function} callback
      */
@@ -74,7 +88,6 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
      */
     removeChangeListener: function(callback) {
       this.removeListener(CHANGE_EVENT, callback);
-<<<<<<< HEAD
     },
 
     getMessages: function() {
@@ -88,18 +101,11 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
     addNewMessageListener: function(callback) {
       this.on('CHAT', callback);
     },
-=======
-    }
+
   });
 
   Dispatcher.register(function(action, payload) {
-    BrandValue = payload.text;
-    //propagace zmen do vsech navazanych komponent
-    DummyStore.emitChange();
->>>>>>> refactoring chatu, vytvoreni a implementace abstraktniho api
-  });
-
-  Dispatcher.register(function(action, payload) {
+  	console.log("rec", payload);
 	  if (action == 'CONNECT') {
 		  userId = payload.player;
 		  _games = payload.games;
@@ -124,9 +130,12 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
 	  	turnTime = payload.time;
 	  	DummyStore.emitResetTimer();
 	  } else if (action == 'CHAT') {
-      appendNewChatMessage(payload);
-      DummyStore.emitNewMessage();
-    }
+	      appendNewChatMessage(payload);
+	      DummyStore.emitNewMessage();
+	    } else if(action == SCORE) {
+	    	score = "tady bude score";
+	    	DummyStore.emitScoreChange();
+	    }
   });
   return DummyStore;
 });
