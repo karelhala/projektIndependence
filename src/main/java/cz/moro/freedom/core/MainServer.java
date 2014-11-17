@@ -99,6 +99,7 @@ public class MainServer {
 
 	}
 
+
 	/**
 	 * The user closes the connection.
 	 * 
@@ -136,6 +137,7 @@ public class MainServer {
 
 		Team team = gameHandler.getEmptiestTeam();
 		gameHandler.addPlayer(team, msg.getPlayer());
+		gameHandler.addPlayerToTurningPlayerList(msg.getPlayer());
 
 		ConnectToGame con = new ConnectToGame(msg.getPlayer(), game);
 		sendJson(game, con.toJson());
@@ -179,7 +181,7 @@ public class MainServer {
 					TurnMsg msg = new TurnMsg();
 					msg.setX(x);
 					msg.setY(y);
-					msg.setPlayer(player);
+					msg.setPlayer(cell.getPlayer());
 					msg.setGame(game);
 					sendJson(sessions.get(player.getId()), msg.toJson());
 				}

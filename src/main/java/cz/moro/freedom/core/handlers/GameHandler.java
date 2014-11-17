@@ -15,9 +15,9 @@ import cz.moro.freedom.service.ScoreCounter;
 import cz.moro.freedom.service.ScoreCounter.Score;
 
 public class GameHandler {
-
-	public static final Long ROUND_TIME_MILIS = 5000l;
-	private static final int MIN_PLAYER = 3;
+        
+        public static final Long ROUND_TIME_MILIS = 10000l;
+        private static final int MIN_PLAYER = 3;
 
 	private final Game game;
 
@@ -116,6 +116,7 @@ public class GameHandler {
 				}
 			});
 
+            clearPlayersTurnedInRoundList();
 			gameThread.start();
 		}
 	}
