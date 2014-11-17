@@ -10,7 +10,6 @@ define(['react', 'jsx!components/Game', 'jsx!components/Header', 'jsx!components
 					<Header Brand="World Of Gomoku"/>
 					<div className="container">
 						<Timer />
-						<Game />
 						<Chat />
 						<GamePlane />
 					</div>

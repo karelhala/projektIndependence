@@ -1,10 +1,10 @@
-define(['react', 'stores/ChatStore', 'jsx!components/Message'], function(React, ChatStore, Message) {
+define(['react', 'stores/DummyStore', 'jsx!components/Message'], function(React, DummyStore, Message) {
 
 
   var MessageList = React.createClass({
 
     getAllMessages: function() {
-      return ChatStore.getMessages();
+      return DummyStore.getMessages();
     },
 
     getInitialState: function() {
@@ -14,20 +14,20 @@ define(['react', 'stores/ChatStore', 'jsx!components/Message'], function(React, 
     },
 
     componentDidMount: function() {
-      ChatStore.addNewMessageListener(this.onNewMessageRecieved);
+      DummyStore.addNewMessageListener(this.onNewMessageRecieved);
     },
 
     componentWillUnmount: function() {
-      ChatStore.removeNewMessageListener(this.onNewMessageRecieved);
+    //  DummyStore.removeNewMessageListener(this.onNewMessageRecieved);
     },
 
     render: function() {
       var allMessages = this.state.Messages;
       return (
-        <div id="bla">
+        <div>
           {
             allMessages.map(function (msg) {
-              return <Message userId={msg.to} text={msg.text} />;
+              return <Message userId={msg.to} text={msg.msg} />;
             })
           }
         </div>

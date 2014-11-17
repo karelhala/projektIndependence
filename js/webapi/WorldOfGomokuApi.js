@@ -1,5 +1,7 @@
 define(['dispatcher/AppDispatcher', 'actions/ChatActionCreators', 'constants/ChatConstants', 'constants/WebApiConstants'], function(Dispatcher, ChatActionCreators, ChatConstants, WebApiConstants) {
   var webSocket = null;
+  var listeners = [];
+  var listenersOfEverything = [];
 
   var WorldOfGomokuApi = {
 
@@ -13,6 +15,16 @@ define(['dispatcher/AppDispatcher', 'actions/ChatActionCreators', 'constants/Cha
 
         if (type == WebApiConstants.NEW_MESSAGE) {
           that.onNewChatMessageRecieved(data);
+        }
+
+        for (var listener in listeners) {
+          if (type == listener.type) {
+            listener.callback(data);
+          }
+        }
+
+        for (var listener in listenersOfEverything) {
+          listener.callback(data);
         }
       };
     },
@@ -28,13 +40,31 @@ define(['dispatcher/AppDispatcher', 'actions/ChatActionCreators', 'constants/Cha
           to: 'ALL'
       };
       webSocket.send(JSON.stringify(chatMessage));
+    },
+
+
+    send: function(data) {
+      webSocket.send(data);
+    },
+
+    listen: function(type, callback) {
+      listeners.push(
+        {
+          type: type,
+          callback: callback
+        }
+      );
+    },
+
+    listenEverything: function(callback) {
+      listeners.push(callback);
     }
 
   };
 
   Dispatcher.register(function(action, payload){
     if (action == ChatConstants.CREATE_NEW_MESSAGE) {
-      WorldOfGomokuApi.createNewMessage(payload);
+      //WorldOfGomokuApi.createNewMessage(payload);
     }
   });
 

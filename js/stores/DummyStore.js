@@ -1,4 +1,4 @@
-define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Dispatcher, ObjectAssign, EventEmitter) {
+define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/ChatActionCreators'], function(Dispatcher, ObjectAssign, EventEmitter, ChatActionCreators) {
 
 	var _games = [];
   var CHANGE_EVENT = "change";
@@ -10,6 +10,13 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	var turnTime;
 	var turnX;
 	var turnY;
+  var chatMessages = [];
+
+  function appendNewChatMessage(newMessage) {
+    chatMessages.push(newMessage);
+  }
+
+
   var DummyStore = ObjectAssign({}, EventEmitter.prototype, {
 
 	  getGames: function(){
@@ -67,12 +74,22 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
      */
     removeChangeListener: function(callback) {
       this.removeListener(CHANGE_EVENT, callback);
-    }
+    },
+
+    getMessages: function() {
+      return chatMessages;
+    },
+
+    emitNewMessage: function() {
+      this.emit('CHAT');
+    },
+
+    addNewMessageListener: function(callback) {
+      this.on('CHAT', callback);
+    },
   });
 
   Dispatcher.register(function(action, payload) {
-    console.log(action);
-    console.log(payload);
 	  if (action == 'CONNECT') {
 		  userId = payload.player;
 		  _games = payload.games;
@@ -96,7 +113,10 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter'], function(Di
 	  } else if (action == START) {
 	  	turnTime = payload.time;
 	  	DummyStore.emitResetTimer();
-	  }
+	  } else if (action == 'CHAT') {
+      appendNewChatMessage(payload);
+      DummyStore.emitNewMessage();
+    }
   });
   return DummyStore;
 });

@@ -2,18 +2,11 @@ define(['dispatcher/AppDispatcher', 'constants/ChatConstants'], function(Dispatc
 
   return {
     createMessage: function(text) {
-      Dispatcher.handleViewAction(
-        {
-          type: ChatConstants.CREATE_NEW_MESSAGE,
-          data: {
-                  text: text
-                }
-        }
-      );
+      webSocket.send("{type:'CHAT',player:" + userId + ", msg: '" + text + "',to:'ALL'}");
     },
 
     recieveNewMessage: function(to, from, text) {
-      Dispatcher.handleServerAction(
+      Dispatcher.handleViewAction(
         {
           type: ChatConstants.RECIEVE_NEW_MESSAGE,
           data: {

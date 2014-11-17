@@ -13,7 +13,12 @@ define(["estedispatcher", "objectassign"], function(EsteDispatcher, ObjectAssign
      * @param  {object} action The data coming from the server.
      */
     handleServerAction: function(action) {
-      this.dispatch(action.type, action.data);
+     var that = this;
+     webSocket.onmessage = function(event){
+       var data = JSON.parse(event.data);
+       var type = data.type;
+       that.dispatch(type, data);
+     };
     }
 
   });

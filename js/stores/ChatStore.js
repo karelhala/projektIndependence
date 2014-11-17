@@ -29,12 +29,12 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'constants/C
     }
   });
 
-  Dispatcher.register(function(action, payload){
-    if (action == ChatConstants.RECIEVE_NEW_MESSAGE) {
-      appendNewChatMessage(payload);
-      ChatStore.emitNewMessage();
-    }
-  });
+  // Dispatcher.register(function(action, payload){
+  //   if (action == ChatConstants.RECIEVE_NEW_MESSAGE) {
+  //     appendNewChatMessage(payload);
+  //     ChatStore.emitNewMessage();
+  //   }
+  // });
 
   return ChatStore;
 });

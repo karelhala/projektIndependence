@@ -1,4 +1,4 @@
-define(['react', 'bootstrap'], function(React) {
+define(['react'], function(React) {
 
 	var Message = React.createClass({
 		render: function(){

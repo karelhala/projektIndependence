@@ -31,12 +31,12 @@ require.config({
 	}
 });
 
-require(['react', 'jsx!components/WorldOfGomokuApp', 'webapi/WorldOfGomokuApi'], function(React, WorldOfGomoku, WorldOfGomokuApi) {
-	"use strict";
-	// webSocket = new WebSocket("ws://192.168.2.67:8080/freedom/server");
-	var worldOfGomokuApi = WorldOfGomokuApi.initialize("ws://192.168.2.67:8080/freedom/server");
+require(['react', 'jsx!components/WorldOfGomokuApp', 'dispatcher/AppDispatcher'], function(React, WorldOfGomoku, AppDispatcher) {
+	webSocket = new WebSocket("ws://192.168.2.67:8080/freedom/server");
 	var worldOfGomoku = React.createFactory(WorldOfGomoku);
 	AppDispatcher.handleServerAction({type: "serverLoad"});
+
+
 	// Mount the JSX component in the app container
 	React.render(
 		worldOfGomoku(),
