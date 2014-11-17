@@ -21,7 +21,6 @@ define([
 
 		var GamePlane = React.createClass({
 			componentDidMount: function() {
-				console.log(DummyStore);
 				var canvas = document.getElementById("canvas");
 				this.stage = new createjs.Stage(canvas);
 				this.stage.update();
@@ -29,16 +28,14 @@ define([
 				this.renderer = new Renderer();
 				this.renderer.renderPlayGround(this.playground);
 				_that = this;
-//		webSocket.onmessage = function(event){
-//			var data = JSON.parse(event.data);
-//			var type = data.type;
-//			console.log(data);
-//			console.log(type);
-//
-//			if(type == "TURN") {
-//				_that.makeTurn(data.x, data.y);
-//			}
-//		}
+
+		// webSocket.onmessage = function(event){
+		// 	var data = JSON.parse(event.data);
+		// 	var type = data.type;
+		// 	if(type == "TURN") {
+		// 		_that.makeTurn(data.x, data.y);
+		// 	}
+		// }
 				DummyStore.addTurnHappendListener(this.makeTurn);
 				this.renderer.stage.on("stagemousedown", function(event) {
 					var square = _that.renderer.getSquareByCoords(event.stageX, event.stageY);
@@ -48,6 +45,7 @@ define([
 					}
 				});
 			},
+
 
 			makeTurn: function() {
 				var x = DummyStore.getTurnX();
@@ -62,11 +60,11 @@ console.log(x, y, DummyStore.getTurnTeamNumber());
 				this.renderer.renderPlayGround(this.playground);
 			},
 
-			render: function() {
-				return (
-					<canvas widht="500" height="300" id="canvas"></canvas>
-					);
-			}
+	render: function() {
+		return (
+				<canvas widht="500" height="300" id="canvas"></canvas>
+				);
+	}
 
 		});
 

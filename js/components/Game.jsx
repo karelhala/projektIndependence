@@ -1,4 +1,4 @@
-define(['react', 'bootstrap'], function(React) {
+define(['react'], function(React) {
 
 	var Message = React.createClass({
 		render: function(){
@@ -60,14 +60,14 @@ define(['react', 'bootstrap'], function(React) {
 		},
 		handleClick: function(){
 			var that = this;
-			webSocket.onmessage = function(event){
-				var data = JSON.parse(event.data);
-				var type = data.type;
-				if (type == "CHAT")
-				{
-					that.appendNewMessage(data);
-				}
-			};
+			// webSocket.onmessage = function(event){
+			// 	var data = JSON.parse(event.data);
+			// 	var type = data.type;
+			// 	if (type == "CHAT")
+			// 	{
+			// 		that.appendNewMessage(data);
+			// 	}
+			// };
 			if (this.state.chatMessage){
 				var chatMessage = {
 					type: 'CHAT',

@@ -1,4 +1,4 @@
-define(['react', 'jsx!components/Game', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!components/Timer'], function(React, Game, Header, GamePlane, Timer) {
+define(['react', 'jsx!components/Game', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!components/Timer', 'jsx!components/Chat'], function(React, Game, Header, GamePlane, Timer, Chat) {
 	/**
 	 *
 	 */
@@ -10,7 +10,7 @@ define(['react', 'jsx!components/Game', 'jsx!components/Header', 'jsx!components
 					<Header Brand="World Of Gomoku"/>
 					<div className="container">
 						<Timer />
-						<Game />
+						<Chat />
 						<GamePlane />
 					</div>
 				</div>
