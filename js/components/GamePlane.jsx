@@ -24,7 +24,7 @@ define([
 				var canvas = document.getElementById("canvas");
 				this.stage = new createjs.Stage(canvas);
 				this.stage.update();
-				this.playground = new PlayGround(10, 10);
+				this.playground = new PlayGround(20, 20);
 				this.renderer = new Renderer();
 				this.renderer.renderPlayGround(this.playground);
 				_that = this;

@@ -121,6 +121,15 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
 			  team1 = payload.playerTeam;
 			  DummyStore.emitConnectGame();
 	  		}
+
+		  var msg = {
+		  	to : 'NOTIFICATION',
+		  	player: payload.player,
+		  	msg: "joined the game."
+		  }
+	      appendNewChatMessage(msg);
+	      DummyStore.emitNewMessage();
+
 	  } else if (action == TURN) {
 		turnTeamNumber = payload.team;
 		  turnX = payload.x;
