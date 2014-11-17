@@ -52,12 +52,10 @@ define([
 			makeTurn: function() {
 				var x = DummyStore.getTurnX();
 				var y = DummyStore.getTurnY();
-				if (DummyStore.getTurnTeamNumber() != playerTeam)
-				{
+console.log(x, y, DummyStore.getTurnTeamNumber());
+				if (DummyStore.getTurnTeamNumber() != playerTeam) {
 					this.playground.addCross(new Cross(x, y));
-				}
-				else if (DummyStore.getTurnTeamNumber() == playerTeam)
-				{
+				} else if (DummyStore.getTurnTeamNumber() == playerTeam) {
 					this.playground.addCircle(new Circle(x, y));
 				}
 				this.renderer.update();

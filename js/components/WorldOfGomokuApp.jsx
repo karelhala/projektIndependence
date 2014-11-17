@@ -11,7 +11,6 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 
 		render: function(){
 			this.gameId = this.props.text;
-			console.log(this.props,"dfgsdfgsdfgsdfg");
 			return(
 				<div className="panel panel-default">
 					<div className="panel-heading" >{this.props.text ? this.props.text : "New Game"}</div>
@@ -59,7 +58,6 @@ define(['react', 'jsx!components/Header', 'jsx!components/GamePlane', 'jsx!compo
 			};
 		},
 		componentDidMount: function() {
-			console.log("Header.componentDidMount");
 			DummyStore.addChangeListener(this._concatGames);
 			DummyStore.addRedirectListener(this._onRedirectToGame);
 		},

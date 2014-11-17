@@ -1,9 +1,8 @@
 define(['react', 'bootstrap'], function(React, Bootstrap) {
-  
+
 	return React.createClass({
 
 		render: function() {
-
 			return (
         <nav className="navbar navbar-default" role="navigation">
           <div className="container-fluid">
