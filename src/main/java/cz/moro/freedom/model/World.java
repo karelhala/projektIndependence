@@ -4,7 +4,7 @@ package cz.moro.freedom.model;
 public class World {
 
 
-    public static final int DEFAULT_WORLD_SIZE = 10;
+    public static final int DEFAULT_WORLD_SIZE = 20;
     
     private final Cell[][] world;
     private int width = DEFAULT_WORLD_SIZE;
