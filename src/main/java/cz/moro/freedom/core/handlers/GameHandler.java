@@ -16,7 +16,7 @@ import cz.moro.freedom.service.ScoreCounter.Score;
 
 public class GameHandler {
 
-	public static final Long ROUND_TIME_MILIS = 15000l;
+	public static final Long ROUND_TIME_MILIS = 5000l;
 	private static final int MIN_PLAYER = 3;
 
 	private final Game game;
