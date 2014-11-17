@@ -74,6 +74,7 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
      */
     removeChangeListener: function(callback) {
       this.removeListener(CHANGE_EVENT, callback);
+<<<<<<< HEAD
     },
 
     getMessages: function() {
@@ -87,6 +88,15 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'actions/Cha
     addNewMessageListener: function(callback) {
       this.on('CHAT', callback);
     },
+=======
+    }
+  });
+
+  Dispatcher.register(function(action, payload) {
+    BrandValue = payload.text;
+    //propagace zmen do vsech navazanych komponent
+    DummyStore.emitChange();
+>>>>>>> refactoring chatu, vytvoreni a implementace abstraktniho api
   });
 
   Dispatcher.register(function(action, payload) {

@@ -31,7 +31,6 @@ define([
 		// webSocket.onmessage = function(event){
 		// 	var data = JSON.parse(event.data);
 		// 	var type = data.type;
-
 		// 	if(type == "TURN") {
 		// 		_that.makeTurn(data.x, data.y);
 		// 	}
@@ -45,6 +44,7 @@ define([
 					}
 				});
 			},
+
 
 			makeTurn: function() {
 				var x = DummyStore.getTurnX();

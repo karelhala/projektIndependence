@@ -36,5 +36,6 @@ define(['dispatcher/AppDispatcher', 'objectassign', 'eventEmitter', 'constants/C
   //   }
   // });
 
+
   return ChatStore;
 });

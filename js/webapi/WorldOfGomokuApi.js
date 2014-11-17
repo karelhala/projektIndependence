@@ -61,12 +61,12 @@ define(['dispatcher/AppDispatcher', 'actions/ChatActionCreators', 'constants/Cha
     }
 
   };
-
+/*
   Dispatcher.register(function(action, payload){
     if (action == ChatConstants.CREATE_NEW_MESSAGE) {
       //WorldOfGomokuApi.createNewMessage(payload);
     }
-  });
+  });*/
 
   return WorldOfGomokuApi;
 });
